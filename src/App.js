@@ -1,17 +1,17 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "./components/Home";
-import Admin from "./components/Admin";
+import Admin from "./components/Admin/Admin";
 import Categories from "./components/Categories";
 import Books from "./components/Books";
 import Authors from "./components/Authors";
 import "./App.css";
-import Navbar from "./components/Navbar";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "font-awesome/css/font-awesome.min.css";
 
 function App() {
   return (
     <>
-      <Navbar />
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Home} />
