@@ -1,8 +1,6 @@
 import React from "react";
 import { UserContext } from "./Admin";
-import Categories from "./Categories";
-import Authors from "./Authors";
-import Books from "./Books";
+import Presenter from "./Presenter";
 
 const Home = () => {
   const { user } = React.useContext(UserContext);
@@ -51,17 +49,7 @@ const Home = () => {
       </ul>
       </div>
       </div>
-      {(() => {
-        switch (currentView) {
-          case "books":
-            return <Books />;
-          case "authors":
-            return <Authors />;
-          default:
-          case "categories":
-            return <Categories />;
-        }
-      })()}
+      <Presenter current={currentView}/>
     </>
   );
 };
