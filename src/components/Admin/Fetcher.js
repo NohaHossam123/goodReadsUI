@@ -12,6 +12,7 @@ const Fetcher = (props) => {
       setData({ ...data, items: responseData, current, loaded: true });
     };
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current]);
 
   return React.cloneElement(props.children, data);

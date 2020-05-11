@@ -39,7 +39,7 @@ const Login = () => {
         });
         const user = await getUser.json();
         user.token = response.refreshToken;
-        setUser(user);
+        setImmediate(()=> setUser(user))
         break;
       case 200:
         error = "Sorry only Admins can access this page";
@@ -68,7 +68,6 @@ const Login = () => {
           )}
           <form onSubmit={handleSubmit}>
             <div className="form-group p-2">
-              {/* <label>Username</label> */}
               <input
                 type="text"
                 className="form-control"
@@ -80,7 +79,6 @@ const Login = () => {
               />
             </div>
             <div className="form-group p-2">
-              {/* <label>Password</label> */}
               <input
                 type="password"
                 className="form-control"

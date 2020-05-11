@@ -41,15 +41,8 @@ const Home = () => {
         </li>
       </ul>
       </div>
-      <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
-      <ul className='navbar-nav ml-auto'>
-        <button className="btn">
-          <i className="fa fa-plus-circle fa-2x"></i>
-        </button>
-      </ul>
-      </div>
-      </div>
-      <Presenter current={currentView}/>
+    </div>
+    <Presenter current={currentView}/>
     </>
   );
 };
