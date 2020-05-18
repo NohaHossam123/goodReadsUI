@@ -40,7 +40,7 @@ const AuthorBooks = (props)=> {
                     <div className="col-10 card">
                             <div className="card-body">
                                 <p className="card-text">
-                                    <strong><Link to="#">{book.name}</Link></strong>
+                                    <strong><Link to={`/book/${book._id}`}>{book.name}</Link></strong>
                                 </p>
                                 {/* rating results */}
                                 <BookRate id={id}/>

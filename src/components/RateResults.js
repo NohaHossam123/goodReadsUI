@@ -19,24 +19,19 @@ const BookRate = (props)=> {
 
     }, [])
 
-    
-    console.log(rate)
-        return (
+    return (
         <>
-            <div>
                 <span>  
                 <span className="star">★</span>
                 <span className="star">★</span>
                 <span className="star">★</span>
                 <span className="star">★</span>
                 <span className="star">★</span>
-
                 </span>
 
                 <span>
                 &nbsp; -  {/* {rate} */} &nbsp; rates
                 </span>
-            </div>
        
         </>
         )

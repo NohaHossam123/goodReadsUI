@@ -4,6 +4,7 @@ import Home from "./components/Home";
 import Admin from "./components/Admin/Admin";
 import Categories from "./components/Categories";
 import Books from "./components/Books";
+import Book from "./components/Book";
 import Authors from "./components/Authors";
 import Author from "./components/Author";
 import "./App.css";
@@ -19,6 +20,7 @@ function App() {
           <Route path="/admin" component={Admin} />
           <Route path="/categories" component={Categories} />
           <Route path="/books" component={Books} />
+          <Route path="/book/:id" component={Book} />
           <Route path="/authors" component={Authors} />
           <Route path="/author/:id" component={Author} />
 

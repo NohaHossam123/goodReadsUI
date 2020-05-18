@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import AuthorBooks from './AuthorBooks';
-  
 // import axios from 'axios';
 
 const Author = ({match: { params: { id } } })=> {
@@ -51,7 +50,7 @@ const Author = ({match: { params: { id } } })=> {
                             <h4 className="card-title">{author.author.firstName}&nbsp;{author.author.lastName} </h4>
                             <hr/>
                             <p className="card-text">
-                                <strong>Born : </strong> &nbsp;{author.author.birthdate}
+                                <strong>Born : </strong> &nbsp;{author.author.birthDate.split('',10)}
                             </p>
                             <p className="card-text">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
