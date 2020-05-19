@@ -7,6 +7,7 @@ import Books from "./components/Books";
 import Book from "./components/Book";
 import Authors from "./components/Authors";
 import Author from "./components/Author";
+import All from "./components/All";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "font-awesome/css/font-awesome.min.css";
@@ -17,6 +18,7 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route path="/all" component={All} />
           <Route path="/admin" component={Admin} />
           <Route path="/categories" component={Categories} />
           <Route path="/books" component={Books} />
