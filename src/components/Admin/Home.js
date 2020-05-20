@@ -1,10 +1,16 @@
 import React from "react";
-import { UserContext } from "./Admin";
+// import { UserContext } from "./Admin";
 import Presenter from "./Presenter";
 
+export const DataContext = React.createContext(null);
+
 const Home = () => {
-  const { user } = React.useContext(UserContext);
-  const [currentView, setCurrentView] = React.useState("categories");
+  // const { user } = React.useContext(UserContext);
+
+  const [data, setData] = React.useState({ items: [], currentView: 'categories',  toggleModal: false});
+
+
+  const providerValue = { data, setData };
 
   return (
     <>
@@ -14,17 +20,17 @@ const Home = () => {
         <li className="nav-item">
           <button
             className={
-              currentView === "categories" ? "nav-link active" : "nav-link"
+              data.currentView === "categories" ? "nav-link active" : "nav-link"
             }
-            onClick={() => setCurrentView("categories")}
+            onClick={() => setData({...data, currentView: "categories"})}
           >
             Categories
           </button>
         </li>
         <li className="nav-item">
           <button
-            className={currentView === "books" ? "nav-link active" : "nav-link"}
-            onClick={() => setCurrentView("books")}
+            className={data.currentView === "books" ? "nav-link active" : "nav-link"}
+            onClick={() => setData({...data, currentView: "books"})}
           >
             Books
           </button>
@@ -32,9 +38,9 @@ const Home = () => {
         <li className="nav-item">
           <button
             className={
-              currentView === "authors" ? "nav-link active" : "nav-link"
+              data.currentView === "authors" ? "nav-link active" : "nav-link"
             }
-            onClick={() => setCurrentView("authors")}
+            onClick={() => setData({...data, currentView: "authors"})}
           >
             Authors
           </button>
@@ -42,7 +48,9 @@ const Home = () => {
       </ul>
       </div>
     </div>
-    <Presenter current={currentView}/>
+    <DataContext.Provider value={providerValue}>
+    <Presenter/>
+    </DataContext.Provider>
     </>
   );
 };

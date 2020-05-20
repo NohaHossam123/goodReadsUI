@@ -4,7 +4,7 @@ import { UserContext } from "./Admin";
 let error = null;
 
 const Login = () => {
-  const { user, setUser } = React.useContext(UserContext);
+  const { setUser } = React.useContext(UserContext);
   const [authData, setAuthData] = React.useState({
     username: "",
     password: "",

@@ -1,4 +1,7 @@
 import React from "react";
+import { DataContext } from "./Home";
+
+let error;
 
 export const tableData = (item, current) => {
   switch (current) {
@@ -6,7 +9,7 @@ export const tableData = (item, current) => {
       return (
         <>
           <td>
-            <img src={item.image}></img>
+            <img src={item.image} alt = 'Book Img'></img>
           </td>
           <td>{item.name}</td>
           <td>{item.category.name}</td>
@@ -19,7 +22,7 @@ export const tableData = (item, current) => {
       return (
         <>
           <td>
-            <img src={item.image}></img>
+            <img src={item.image} alt='Author Img'></img>
           </td>
           <td>{item.firstName}</td>
           <td>{item.lastName}</td>
@@ -61,31 +64,39 @@ export const tableHeaders = (current) => {
 export const editForm = (item, current) => {
   return (
     <div className="text-center border p-5">
-      {/* {error && (
+      {error && (
       <div className="alert alert-danger" role="alert">
         {error}
       </div>
-    )} */}
+    )}
         {(() => {
-               switch (current) {
-              case 'categories':
-                  return editCategoryForm(item);
-              case 'authors':
-                  return editAuthorForm(item);
-              case 'books':
-                  return EditBookForm(item);
-                default:
-                    break;
+          switch (current) {
+            case 'categories':
+                return <EditCategoryForm category={item} />;
+            case 'authors':
+                return <EditAuthorForm author={item} />;
+            case 'books':
+                return <EditBookForm book={item} />;
+              default:
+                break;
           }
         })()}
     </div>
   );
 };
 
-const editCategoryForm = (item) => {
+const EditCategoryForm = (props) => {
+  const {data, setData} = React.useContext(DataContext)
+
+  const {category} = props
+  let categoryObject = category || { name: ''}
+  const handleInputChange = (e) => {
+    const { target: { value } } = e;
+    categoryObject.name = value
+  };
   return (
-    <form>
-      <h2 className="">{(item && item.name)||"New Category"}</h2>
+    <form onSubmit={(e) => globalHandleSubmit(e,category,'categories', categoryObject,data,setData)}>
+      <h2 className="">{(category?.name)||"New Category"}</h2>
       <div className="form-group row py-2">
         <label className="col-sm-2 col-form-label">Name: </label>
         <div className="col-sm-10">
@@ -94,38 +105,47 @@ const editCategoryForm = (item) => {
             className="form-control"
             name="name"
             placeholder="Enter category name"
-            defaultValue={(item && item.name) || null}
+            defaultValue={(category?.name)}
             required
+            onChange={handleInputChange}
           />
         </div>
       </div>
-      <button className="btn btn-primary col-3 p-2" type="submit">
+      <button className="btn btn-primary col-3 p-2 cl" type="submit">
         Submit
       </button>
     </form>
   );
 };
 
-const EditBookForm = (item) => {
-  const [data, setData] = React.useState({
+const EditBookForm = (props) => {
+  const {data, setData} = React.useContext(DataContext)
+
+  const { book } = props
+  const [options, setOptions] = React.useState({
     categories: [],
     authors: [],
     loaded: false,
   });
+  const [bookToEdit, setBookToEdit] = React.useState({})
+  const handleInputChange = (e) => {
+    const { target: { name , value } } = e;
+    setBookToEdit({...bookToEdit, [name] : value})
+  };
   React.useEffect(() => {
     const getBookOptions = async () => {
         await Promise.all([
             fetch("http://localhost:5000/categories").then((categories) => categories.json()),
             fetch("http://localhost:5000/authors").then((authors) => authors.json())])
-            .then(([categories,authors]) => setData({categories,
+            .then(([categories,authors]) => setOptions({categories,
                 authors,
                 loaded: true}));
       };
     getBookOptions();
-  }, [data.loaded]);
+  }, [options.loaded]);
   return (
-    <form>
-      <h2 className="">{(item && item.name) || "New Book"}</h2>
+    <form onSubmit={(e) => globalHandleSubmit(e,book,'books', bookToEdit,data,setData)}>
+      <h2 className="">{(book?.name) || "New Book"}</h2>
       <div className="form-group row p-2">
         <label className="col-sm-2 col-form-label">Name: </label>
         <div className="col-sm-10">
@@ -134,21 +154,22 @@ const EditBookForm = (item) => {
             className="form-control"
             name="name"
             placeholder="Enter book name"
-            defaultValue={(item && item.name) || null}
+            defaultValue={(book?.name)}
             required
+            onChange={handleInputChange}
           />
         </div>
       </div>
       <div className="form-group row p-2">
         <label className="col-sm-2 col-form-label">Category: </label>
         <div className="col-sm-10">
-          <select className="custom-select" name="category" required>
-            {data.categories.map((cat) => {
+          <select className="custom-select" name="category" required onChange={handleInputChange} value={bookToEdit?.category || book?.category?._id || ''}>
+            <option value='' disabled hidden>Choose category</option>
+            {options.categories.map((cat) => {
               return (
                 <option
                   key={cat._id}
                   value={cat._id}
-                  defaultValue={((item && item.category._id) || null) === cat._id}
                 >
                   {cat.name}
                 </option>
@@ -160,13 +181,13 @@ const EditBookForm = (item) => {
       <div className="form-group row p-2">
         <label className="col-sm-2 col-form-label">Author: </label>
         <div className="col-sm-10">
-          <select className="custom-select" name="author" required>
-            {data.authors.map((author) => {
+          <select className="custom-select" name="author" required onChange={handleInputChange}  value={bookToEdit.author || book?.author?._id || ''}>
+          <option value='' disabled hidden>Choose category</option>
+            {options.authors.map((author) => {
               return (
                 <option
                   key={author._id}
                   value={author._id}
-                  defaultValue={((item && item._id)||null) === author._id}
                 >
                   {author.firstName} {author.lastName}
                 </option>
@@ -178,7 +199,7 @@ const EditBookForm = (item) => {
       <div className="form-group row p-2">
         <label className="col-sm-2 col-form-label">Image: </label>
         <div className="col-sm-10">
-          <input type="file" className="form-control" name="image" required />
+          <input type="file" className="form-control" name="image" required onChange={handleInputChange}/>
         </div>
       </div>
       <button className="btn btn-primary col-3 p-2" type="submit">
@@ -188,69 +209,110 @@ const EditBookForm = (item) => {
   );
 };
 
-const editAuthorForm = (item) => {
-    return (
-      <form>
-        <h2 className="">{(item && item.firstName + " " + item && item.lastName)|| "New Author"}</h2>
-        <div className="form-group row py-2">
-          <label className="col-sm-2 col-form-label">First Name: </label>
-          <div className="col-sm-10">
-            <input
-              type="text"
-              className="form-control"
-              name="firstName"
-              placeholder="Enter author's first name"
-              defaultValue={(item && item.firstName) || null}
-              required
-            />
-          </div>
-        </div>
-        <div className="form-group row py-2">
-          <label className="col-sm-2 col-form-label">Last Name: </label>
-          <div className="col-sm-10">
-            <input
-              type="text"
-              className="form-control"
-              name="lastName"
-              placeholder="Enter author's last name"
-              defaultValue={(item && item.lastName) || null}
-              required
-            />
-          </div>
-        </div>
-        <div className="form-group row py-2">
-            <label className='col-sm-2 col-form-label'>Birth Date:</label>
-          <div className="col-sm-10">
-            <input type="date" name="birthDate" min="1800-01-01"
-                    max="2020-12-31" className="form-control" value={((item && new Date(item.birthDate).toISOString().substr(0,10)) || null)}/>
-                    </div>
-        </div>
-        <div className="form-group row p-2">
-        <label className="col-sm-2 col-form-label">Image: </label>
+const EditAuthorForm = (props) => {
+  const { author } = props;
+  const {data, setData} = React.useContext(DataContext);
+  const [authorToEdit, setAuthorToEdit] = React.useState({});
+  const handleInputChange = (e) => {
+    const { target: { name , value } } = e;
+    setAuthorToEdit({...authorToEdit, [name] : value});
+  };
+  
+  return (
+    <form onSubmit={(e) => globalHandleSubmit(e,author,'authors', authorToEdit,data,setData)}>
+      <h2 className="">{author?.firstName || "New Author"}</h2>
+      <div className="form-group row py-2">
+        <label className="col-sm-2 col-form-label">First Name: </label>
         <div className="col-sm-10">
-          <input type="file" className="form-control" name="image" required />
+          <input
+            type="text"
+            className="form-control"
+            name="firstName"
+            placeholder="Enter author's first name"
+            defaultValue={author?.firstName}
+            onChange={handleInputChange}
+            required
+          />
         </div>
       </div>
-        <button className="btn btn-primary col-3 p-2" type="submit">
-          Submit
-        </button>
-      </form>
-    );
-  };
-
-export const confirmDelete = (item,current) => {
-    return (
-    <div className="text-center border p-5">
-        <form>
-          <h5 className="">Delete Confirmation</h5>
-          <div className="form-group row p-4">
-            {/* <label className="col-sm-2 col-form-label">Category Name: </label> */}
-            <h6>Are you sure you want to delete this record?</h6>
-          </div>
-          <button className="btn btn-danger col-3 p-2" type="submit">
-            Delete
-          </button>
-        </form>
+      <div className="form-group row py-2">
+        <label className="col-sm-2 col-form-label">Last Name: </label>
+        <div className="col-sm-10">
+          <input
+            type="text"
+            className="form-control"
+            name="lastName"
+            placeholder="Enter author's last name"
+            defaultValue={author?.lastName}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+      </div>
+      <div className="form-group row py-2">
+          <label className='col-sm-2 col-form-label'>Birth Date:</label>
+        <div className="col-sm-10">
+          <input type="date" name="birthDate" min="1800-01-01"
+              max="2020-12-31" className="form-control" 
+              value={authorToEdit.birthDate || (author && new Date(author.birthDate).toISOString().substr(0,10)) || '' }
+              onChange={handleInputChange}/>
+        </div>
+      </div>
+      <div className="form-group row p-2">
+      <label className="col-sm-2 col-form-label">Image: </label>
+      <div className="col-sm-10">
+        <input type="file" className="form-control" name="image" required onChange={handleInputChange}/>
+      </div>
     </div>
-      );
+      <button className="btn btn-primary col-3 p-2" type="submit">
+        Submit
+      </button>
+    </form>
+  );
+};
+
+export const confirmDelete = (item,current,data,setData) => {
+  return (
+    <div className="text-center border p-5">
+          <h5 className=""><strong>Delete Confirmation</strong></h5>
+          <div className="form-group row p-4">
+            <h6 className="mx-auto">Are you sure you want to delete this record?</h6>
+          </div>
+          <button className="btn btn-danger col-3 p-2 mx-2" 
+            onClick={(e) => globalHandleSubmit(e,item,current,null,data,setData,true)}>
+            Yes
+          </button>
+          <button className="btn btn-info col-3 p-2 mx-2" onClick={() => hidePopup(data,setData)}>
+            No
+          </button>
+    </div>
+  );
+}
+
+
+const globalHandleSubmit = async(e,item,current,payload,data,setData,remove=false) => {
+  e.preventDefault();
+  let method,url = `http://localhost:5000/${current}/`;
+  let body = (payload && JSON.stringify(payload)) || null;
+  if (item){
+    remove ? method = 'DELETE' : method = 'PATCH';
+    url += item._id;
+  }else{
+    method = 'POST';
   }
+  const fetchResponse = await fetch(url, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body
+    });
+    await fetchResponse.json() && hidePopup(data,setData);
+}
+
+const hidePopup = (data,setData) => {
+  let popup = document.getElementsByClassName('popup-content')[0];
+  popup.parentNode.style.display= 'none';
+  popup.parentNode.removeChild(popup);
+  setData({...data, toggleModal: !data.toggleModal});
+}
