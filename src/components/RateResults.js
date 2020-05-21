@@ -23,7 +23,8 @@ const BookRate = (props)=> {
         <div className="row">
         <div className="col-2">
               <StarRatingComponent
-                value={rate.rate|| 0}
+                name="staticRate"
+                value={parseInt(rate.rate)|| 0}
                 editing={false}
                 renderStarIcon={() => <span className="fa fa-star"></span>}
               />

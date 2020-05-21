@@ -23,7 +23,7 @@ const ReviewForm = function(props){
                  onChange={handleChange} value={input} placeholder="review the book..."></textarea>
             </div>
             <div>
-            <button className="btn btn-info" type="submit" onClick={props.closeModal}>post review</button>
+            <button className="btn btn-info" type="submit">post review</button>
             </div>
           </form>
       </div>

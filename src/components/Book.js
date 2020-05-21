@@ -124,13 +124,13 @@ const Book = ({match: { params: { id } } })=> {
                         <div className="card-body">
                             <h4 className="card-title">{book.book.name}</h4>
                             <hr/>
-                            <p className="card-text">
+                            <div className="card-text">
                             <strong>By : </strong> &nbsp;<Link to={`/author/${book.book.author._id}`}>{book.book.author.firstName}&nbsp;{book.book.author.lastName}</Link>
                             <br/>
                             <strong>Category : </strong> &nbsp;<Link to="#">{book.book.category.name}</Link>
                             <br/>
                             <BookRate id={id}/>
-                            </p>
+                            </div>
                             <p className="card-text">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                             </p>
