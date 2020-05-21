@@ -7,15 +7,11 @@ const Reviews = (props)=> {
     const [id, setId] = useState('')
     const width = { width: "70%"}
 
-const editHandler = ()=>{
-    
-}
 
-
-const deleteHandler = (id)=>{
-    setId(id)
-    props.deleteHandler(id)
-}
+    const deleteHandler = (id)=>{
+        setId(id)
+        props.deleteHandler(id)
+    }
 
     if (props.reviews.error) {
         return ( <p className="card-text"> oops.. something went wrong! </p>)
@@ -37,7 +33,7 @@ const deleteHandler = (id)=>{
                             &nbsp;
                                                        
                                 <Popup
-                                    trigger={<button type="button" className=" btn btn-link" data-toggle="tooltip" title="edit review" onClick={()=>editHandler(review._id)}>
+                                    trigger={<button type="button" className=" btn btn-link" data-toggle="tooltip" title="edit review">
                                     <i className="fa fa-edit fa-xs"></i>
                                     </button>}
                                     position="right center"

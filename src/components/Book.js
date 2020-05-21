@@ -3,10 +3,13 @@ import { Link } from 'react-router-dom';
 import BookRate from './RateResults';
 import Reviews from './Reviews';
 import ReviewForm from './Reviewform'; 
+import { UserContext } from "./Admin/Admin";
 
 const Book = ({match: { params: { id } } })=> {
     const [book, setBook] = useState({ book: {}, error: null, isloaded: false })
     const [reviews,setReviews] = useState ({reviews: [], error:null , isloaded: false})
+    const  user  = React.useContext(UserContext);
+    console.log(user)
     useEffect(()=>{
         fetch(`http://localhost:5000/books/${id}`)
             .then(res => res.json())
@@ -52,7 +55,7 @@ const Book = ({match: { params: { id } } })=> {
                     setReviews({reviews:[...reviews.reviews,result], error:null, isloaded: true})
                 },
                 (error) => {
-                    alert("cannot add review! something went wrong\nnote: 'You cannot send empty review'")
+                    alert("cannot add review! something went wrong\nnote:'You cannot send empty review'")
                 })
                 break
             case "edit":
@@ -76,7 +79,7 @@ const Book = ({match: { params: { id } } })=> {
                     setReviews({reviews:newRev, error:null, isloaded: true})
                 },
                 (error) => {
-                    alert("cannot edit this reviw! something went wrong\nnote: 'You cannot send empty review'")
+                    alert("cannot edit this reviw! something went wrong\nnote:'You cannot send empty review'")
                 })
         } 
         } 

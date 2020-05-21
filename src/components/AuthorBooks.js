@@ -43,7 +43,7 @@ const AuthorBooks = (props)=> {
                                     <strong><Link to={`/book/${book._id}`}>{book.name}</Link></strong>
                                 </p>
                                 {/* rating results */}
-                                <BookRate id={id}/>
+                                <BookRate id={book._id}/>
                             </div>
                         </div>
                     </div>
