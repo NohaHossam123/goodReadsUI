@@ -1,5 +1,6 @@
 import React from "react";
 import { DataContext } from "./Home";
+import { objectToFormData } from 'object-to-formdata';
 
 let error;
 
@@ -9,7 +10,7 @@ export const tableData = (item, current) => {
       return (
         <>
           <td>
-            <img src={item.image} alt = 'Book Img'></img>
+            <img src={item.image} height='200px' width='150px' alt = 'Book Img'></img>
           </td>
           <td>{item.name}</td>
           <td>{item.category.name}</td>
@@ -22,7 +23,7 @@ export const tableData = (item, current) => {
       return (
         <>
           <td>
-            <img src={item.image} alt='Author Img'></img>
+            <img src={item.image} height='200px' width='150px' alt='Author Img'></img>
           </td>
           <td>{item.firstName}</td>
           <td>{item.lastName}</td>
@@ -132,6 +133,10 @@ const EditBookForm = (props) => {
     const { target: { name , value } } = e;
     setBookToEdit({...bookToEdit, [name] : value})
   };
+  const fileSelectHandler = (e) => {
+    const param = e.target.files[0];
+    setBookToEdit({ ...bookToEdit, image: param });  
+  };
   React.useEffect(() => {
     const getBookOptions = async () => {
         await Promise.all([
@@ -144,7 +149,7 @@ const EditBookForm = (props) => {
     getBookOptions();
   }, [options.loaded]);
   return (
-    <form onSubmit={(e) => globalHandleSubmit(e,book,'books', bookToEdit,data,setData)}>
+    <form encType="multipart/form-data" onSubmit={(e) => globalHandleSubmit(e,book,'books', bookToEdit,data,setData)}>
       <h2 className="">{(book?.name) || "New Book"}</h2>
       <div className="form-group row p-2">
         <label className="col-sm-2 col-form-label">Name: </label>
@@ -182,7 +187,7 @@ const EditBookForm = (props) => {
         <label className="col-sm-2 col-form-label">Author: </label>
         <div className="col-sm-10">
           <select className="custom-select" name="author" required onChange={handleInputChange}  value={bookToEdit.author || book?.author?._id || ''}>
-          <option value='' disabled hidden>Choose category</option>
+          <option value='' disabled hidden>Choose author</option>
             {options.authors.map((author) => {
               return (
                 <option
@@ -199,7 +204,7 @@ const EditBookForm = (props) => {
       <div className="form-group row p-2">
         <label className="col-sm-2 col-form-label">Image: </label>
         <div className="col-sm-10">
-          <input type="file" className="form-control" name="image" required onChange={handleInputChange}/>
+          <input type="file" accept=".png, .jpg, .jpeg" className="form-control" name="image" required={!book} onChange={fileSelectHandler}/>
         </div>
       </div>
       <button className="btn btn-primary col-3 p-2" type="submit">
@@ -218,8 +223,14 @@ const EditAuthorForm = (props) => {
     setAuthorToEdit({...authorToEdit, [name] : value});
   };
   
+  const fileSelectHandler = (e) => {
+    const param = e.target.files[0];
+    setAuthorToEdit({ ...authorToEdit, image: param });  
+  };
+
   return (
-    <form onSubmit={(e) => globalHandleSubmit(e,author,'authors', authorToEdit,data,setData)}>
+    <form encType="multipart/form-data"
+      onSubmit={(e) => globalHandleSubmit(e,author,'authors', authorToEdit,data,setData)}>
       <h2 className="">{author?.firstName || "New Author"}</h2>
       <div className="form-group row py-2">
         <label className="col-sm-2 col-form-label">First Name: </label>
@@ -261,7 +272,7 @@ const EditAuthorForm = (props) => {
       <div className="form-group row p-2">
       <label className="col-sm-2 col-form-label">Image: </label>
       <div className="col-sm-10">
-        <input type="file" className="form-control" name="image" required onChange={handleInputChange}/>
+        <input type="file" accept=".png, .jpg, .jpeg" className="form-control" name="image" required={!author} onChange={fileSelectHandler}/>
       </div>
     </div>
       <button className="btn btn-primary col-3 p-2" type="submit">
@@ -293,18 +304,23 @@ export const confirmDelete = (item,current,data,setData) => {
 const globalHandleSubmit = async(e,item,current,payload,data,setData,remove=false) => {
   e.preventDefault();
   let method,url = `http://localhost:5000/${current}/`;
-  let body = (payload && JSON.stringify(payload)) || null;
+  let headers = new Headers ({
+    'Authorization': 'Bearer ' + data?.user?.token,
+  });
+  let body = (payload && objectToFormData(payload)) || null;
   if (item){
     remove ? method = 'DELETE' : method = 'PATCH';
     url += item._id;
   }else{
     method = 'POST';
   }
+  if (current === 'categories') {
+    headers.append('Content-Type', 'application/json');
+    body = (payload && JSON.stringify(payload)) || null;
+  }
   const fetchResponse = await fetch(url, {
     method,
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers,
     body
     });
     await fetchResponse.json() && hidePopup(data,setData);

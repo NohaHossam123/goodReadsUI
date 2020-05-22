@@ -1,13 +1,13 @@
 import React from "react";
-// import { UserContext } from "./Admin";
+import { UserContext } from "./Admin";
 import Presenter from "./Presenter";
 
 export const DataContext = React.createContext(null);
 
 const Home = () => {
-  // const { user } = React.useContext(UserContext);
+  const { user } = React.useContext(UserContext);
 
-  const [data, setData] = React.useState({ items: [], currentView: 'categories',  toggleModal: false});
+  const [data, setData] = React.useState({ items: [], currentView: 'categories', user, toggleModal: false});
 
 
   const providerValue = { data, setData };

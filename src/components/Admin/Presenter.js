@@ -1,6 +1,5 @@
 import React from "react";
 import Fetcher from "./Fetcher";
-// import { UserContext } from "./Admin";
 import { DataContext } from "./Home";
 import Popup from "reactjs-popup";
 import {tableData, tableHeaders, editForm, confirmDelete} from './helpers';
@@ -34,14 +33,14 @@ const Table = (props) => {
   const {data, setData} = React.useContext(DataContext)
   return (
     <table className="table table-light table-striped table-bordered table-hover">
-      <thead>
+      <thead className='text-center'>
         <tr>
           <th>ID</th>
           {tableHeaders(current)}
           <th>Actions</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className='text-center'>
         {props.items.map((item, index) => {
           return (
             <tr key={item._id}>
