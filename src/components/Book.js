@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import BookRate from './RateResults';
 import Reviews from './Reviews';
 import ReviewForm from './Reviewform'; 
-import { UserContext } from "./Admin/Admin";
+import { UserContext } from "../App";
 
 const Book = ({match: { params: { id } } })=> {
     const [book, setBook] = useState({ book: {}, error: null, isloaded: false })

@@ -1,24 +1,17 @@
 import React from 'react';
+import Login from './Admin/Login'
+import { UserContext } from "../App";
+import { Redirect } from 'react-router-dom';
+
 const Home = () => {
+    const { user } = React.useContext(UserContext);
+    if (user) return <Redirect to='/userbook' />
+    else
     return (
         <div className="container col-12">
             <div className="card border-dark mb-3 col-12">
                 <div className="card-header col-12">
-                <form className="form-inline" action="/action_page.php">
-                        <div className="form-group col-6">
-                            <label for="email">Welcome To Good Reads</label>
-                        </div>
-                        <div className="form-group col-2">
-                            <input type="email" placeholder="Username" className="form-control  col-12" id="email" />
-                        </div>
-                        <div className="form-group col-2">
-                            <input type="password" placeholder="Password" className="form-control col-12" id="pwd" />
-                        </div>
-                        <div className="checkbox col-1">
-                            <label><input type="checkbox" /> Remember me </label>
-                        </div>
-                        <button className="btn btn-primary col-1" type="submit">login</button>
-                    </form>
+                {<Login isAdmin={false} UserContext={UserContext}/>}
                 </div>
             </div>
             <div className="row m-1">

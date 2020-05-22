@@ -1,14 +1,13 @@
 import React from "react";
-import { UserContext } from "./Admin";
 
 let error = null;
 
-const Login = () => {
+const Login = ({UserContext, isAdmin}) => {
   const { setUser } = React.useContext(UserContext);
   const [authData, setAuthData] = React.useState({
     username: "",
     password: "",
-    isAdmin: true,
+    isAdmin,
   });
 
 
@@ -27,36 +26,26 @@ const Login = () => {
       },
     });
 
-    switch (res.status) {
-      case 201:
-        const response = await res.json();
-        const getUser = await fetch("http://localhost:5000/users/check", {
-          method: "POST",
-          body: JSON.stringify({ token: response.accessToken }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const user = await getUser.json();
-        user.token = response.refreshToken;
-        setImmediate(()=> setUser(user))
-        break;
-      case 200:
-        error = "Sorry only Admins can access this page";
-
-        break;
-      case 401:
-      case 404:
-        error = "Invalid credintials";
-        break;
-      default:
-        error = "some thing wrong happened";
-        break;
+    if((res.status === 201 && isAdmin) || (res.status === 200 && !isAdmin)){
+      const response = await res.json();
+      const getUser = await fetch("http://localhost:5000/users/check", {
+        method: "POST",
+        body: JSON.stringify({ token: response.accessToken }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const user = await getUser.json();
+      user.token = response.refreshToken;
+      setImmediate(()=> setUser(user))
     }
+    else if (res.status === 200 && isAdmin) error = "Sorry only Admins can access this page";
+    else if (res.status === 401 || res.status === 401) error = "Invalid credintials";
+    else error = "some thing wrong happened";
     setAuthData({ username: "", password: "", isAdmin: true });
   };
 
-  return (
+  if (isAdmin) return (
     <div className="container" style={{ height: 75 + "vh" }}>
       <div className="row h-100 justify-content-center align-items-center">
         <div className="col-10 col-md-8 col-lg-6 text-center border p-5">
@@ -96,7 +85,26 @@ const Login = () => {
         </div>
       </div>
     </div>
-  );
+  )
+  else return (
+    <form className="form-inline" onSubmit={handleSubmit}>
+        <div className="form-group col-6">
+            <label for="email">Welcome To Good Reads</label>
+        </div>
+        <div className="form-group col-2">
+            <input type="text" placeholder="Username" className="form-control  col-12" 
+            id="email" name='username' required onChange={handleInputChange}/>
+        </div>
+        <div className="form-group col-2">
+            <input type="password" placeholder="Password" className="form-control col-12" 
+            id="pwd" name='password' required onChange={handleInputChange}/>
+        </div>
+        <div className="checkbox col-1">
+            <label><input type="checkbox" /> Remember me </label>
+        </div>
+        <button className="btn btn-primary col-1" type="submit">login</button>
+    </form>
+  )
 };
 
 export default Login;

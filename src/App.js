@@ -12,9 +12,13 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "font-awesome/css/font-awesome.min.css";
 
+export const UserContext = React.createContext(null);
+
 function App() {
+  const [user, setUser] = React.useState(null);
+  const providerValue = { user, setUser };
   return (
-    <>
+    <UserContext.Provider value={providerValue}>
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Home} />
@@ -25,10 +29,9 @@ function App() {
           <Route path="/book/:id" component={Book} />
           <Route path="/authors" component={Authors} />
           <Route path="/author/:id" component={Author} />
-
         </Switch>
       </BrowserRouter>
-    </>
+    </UserContext.Provider> 
   );
 }
 
