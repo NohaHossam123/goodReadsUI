@@ -2,8 +2,7 @@ import React , { useState } from 'react';
 
 
 const ReviewForm = function(props){
-    const [input , setInput] = useState('');
-
+    const [input , setInput] = useState(props.review);
     const handleChange = (e)=> {
         const {target: { value } } = e
         setInput(value)
@@ -11,7 +10,7 @@ const ReviewForm = function(props){
     
      const handleSubmit = (e) => {
         e.preventDefault();
-        props.submitHandler(input)
+        props.submitHandler(input,props.mode,props.id)
         setInput('')
     }
 
