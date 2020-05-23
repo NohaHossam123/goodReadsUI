@@ -1,30 +1,40 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "./components/Home";
-import Admin from "./components/Admin";
- import Categories from "./components/CategoriesUI";
+import Admin from "./components/Admin/Admin";
+import Categories from "./components/Categories";
+import Categories from "./components/CategoriesUI";
 import Books from "./components/Books";
+import Book from "./components/Book";
 import Authors from "./components/Authors";
-// import CategoryDetails from "./category/Categories"
+import Author from "./components/Author";
+import Userbook from "./components/Userbook";
 import "./App.css";
-import Navbar from "./components/Navbar";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "font-awesome/css/font-awesome.min.css";
+
+export const UserContext = React.createContext(null);
 
 
 function App() {
+  const [user, setUser] = React.useState(null);
+  const providerValue = { user, setUser };
   return (
-    <>
-      <Navbar />
+    <UserContext.Provider value={providerValue}>
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route path="/userbook" component={Userbook} />
           <Route path="/admin" component={Admin} />
           <Route path="/categories" component={Categories} />
           {/* <Route path="/categories/:categoryname/:id" component={CategoryDetails} /> */}
           <Route path="/books" component={Books} />
+          <Route path="/book/:id" component={Book} />
           <Route path="/authors" component={Authors} />
+          <Route path="/author/:id" component={Author} />
         </Switch>
       </BrowserRouter>
-    </>
+    </UserContext.Provider> 
   );
 }
 export default App;

@@ -1,9 +1,18 @@
 import React from 'react';
+import Login from './Admin/Login'
+import { UserContext } from "../App";
+import { Redirect } from 'react-router-dom';
+
 const Home = () => {
+    const { user } = React.useContext(UserContext);
+    if (user) return <Redirect to='/userbook' />
+    else
     return (
         <div className="container col-12">
-            <div className="card border-dark mb-3">
-                <div className="card-header">Welcome To Good Reads</div>
+            <div className="card border-dark mb-3 col-12">
+                <div className="card-header col-12">
+                {<Login isAdmin={false} UserContext={UserContext}/>}
+                </div>
             </div>
             <div className="row m-1">
                 <div className="card-deck col-6">
@@ -65,12 +74,36 @@ const Home = () => {
                                 <div className="invalid-feedback">Example invalid custom file feedback</div>
                             </div>
                             <div className="form-group mb-3 text-center">
-                            <button class="btn btn-primary col-2" type="submit">Signup</button>
+                                <button className="btn btn-primary col-2" type="submit">Signup</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className="collapse navbar-collapse" id="navbarNav">
+                    <ul className="navbar-nav container col-12">
+                        <li className="nav-item active col-2 ml-5">
+                            <a className="nav-link " href="#"><h1> Home </h1><span className="sr-only">(current)</span></a>
+                        </li>
+                        <li className="nav-item col-2">
+                            <a className="nav-link" href="#"><h1> About us</h1></a>
+                        </li>
+                        <li className="nav-item col-2">
+                            <a className="nav-link" href="#"><h1> Categories</h1></a>
+                        </li>
+                        <li className="nav-item col-2">
+                            <a className="nav-link" href="#"><h1> Authors</h1></a>
+                        </li>
+                        <li className="nav-item col-3">
+                            <a className="nav-link" href="#"><h1> Terms & Conditions</h1></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         </div>
     );
 }
