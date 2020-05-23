@@ -123,7 +123,8 @@ const Book = ({match: { params: { id } } })=> {
             <Popup
                 open={open}
                 modal
-                closeOnDocumentClick>
+                closeOnDocumentClick
+                onClose={()=>setOpen(false)}>
                 <>
                     <a className="close" onClick={()=>setOpen(false)}>&times;</a>
                     <div className="container p-2">
