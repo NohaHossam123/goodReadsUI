@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import List from './List';
+import Buttons from './Buttons';
 import axios from 'axios';
 import { UserContext } from "../App";
 
@@ -14,7 +14,12 @@ const Userbook = () => {
         });
     }, []);
     return ( 
-        <div className="container">
+        <div className="container col-12">
+            <div className="row m-1">
+            <div>
+            <Buttons/>
+            </div>
+            <div>
             <table class="table">
                 <thead>
                     <tr>
@@ -43,7 +48,8 @@ const Userbook = () => {
                 }
                 </tbody>
             </table>
-            <List />
+            </div>
+        </div>
         </div>
      );
 }

@@ -1,10 +1,10 @@
 import React from "react";
 
- const List = (props)=> {
+ const Buttons = (props)=> {
 
         return (
                 <div className="wrapper">
-                <ul className="list-unstyled components">
+                <ul className="list-unstyled components" id="buttons">
                     <li>
                         <button type="button"className="btn btn-info">All</button>
                     </li>
@@ -22,4 +22,4 @@ import React from "react";
         )
 
 }
-export default List;
+export default Buttons;
