@@ -7,13 +7,9 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
-<<<<<<< HEAD
-    "bootstrap": "^4.5.0",
-=======
     "bootstrap": "^4.4.1",
     "font-awesome": "^4.7.0",
     "object-to-formdata": "^3.0.9",
->>>>>>> adc3284d91959564cc78bfac10c4783b80b83709
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",

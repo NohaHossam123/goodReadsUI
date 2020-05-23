@@ -5,8 +5,10 @@ import { UserContext } from "../App";
 
 const Userbook = () => {
   const { user } = React.useContext(UserContext);
-    console.log("userbook",user?.user?.username)
-    const [userBook, setUserBook] = useState([])
+    console.log("userbook",user?.user?.username);
+    const [userBook, setUserBook] = useState([]);
+    const user = React.useContext(UserContext);
+    console.log(user)
     useEffect(()=>{
         axios.get('http://localhost:5000/books/shelf/5ec44c25e2ca3c6021d28b61').then((res)=>{
             setUserBook(res.data);
