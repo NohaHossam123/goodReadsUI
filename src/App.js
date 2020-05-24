@@ -2,16 +2,16 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "./components/Home";
 import Admin from "./components/Admin/Admin";
-import Categories from "./components/Categories";
-import Categories from "./components/CategoriesUI";
+import CategoryBooks from "./category/Categories";
+import Categories from "./category/CategoriesUI";
 import Books from "./components/Books";
 import Book from "./components/Book";
 import Authors from "./components/Authors";
 import Author from "./components/Author";
 import Userbook from "./components/Userbook";
-import "./App.css";
+import './category/category-style.css'
 import "bootstrap/dist/css/bootstrap.min.css";
-import "font-awesome/css/font-awesome.min.css";
+// import "font-awesome/css/font-awesome.min.css";
 
 export const UserContext = React.createContext(null);
 
@@ -26,8 +26,8 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route path="/userbook" component={Userbook} />
           <Route path="/admin" component={Admin} />
+          <Route path="/category/:id" component={CategoryBooks} />
           <Route path="/categories" component={Categories} />
-          {/* <Route path="/categories/:categoryname/:id" component={CategoryDetails} /> */}
           <Route path="/books" component={Books} />
           <Route path="/book/:id" component={Book} />
           <Route path="/authors" component={Authors} />
