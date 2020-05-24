@@ -5,22 +5,22 @@ import { UserContext } from "../App";
 
 const Userbook = () => {
   const { user } = React.useContext(UserContext);
-    console.log("userbook",user?.user?.username)
-    const [userBook, setUserBook] = useState([])
+    console.log("userbook",user?.user?.username);
+    const [userBook, setUserBook] = useState([]);
+    const user_id = user ? user.user._id : null;
     useEffect(()=>{
-        axios.get('http://localhost:5000/books/shelf/5ec44c25e2ca3c6021d28b61').then((res)=>{
+        axios.get(`http://localhost:5000/books/shelf/${user_id}`).then((res)=>{
             setUserBook(res.data);
-            console.log(res.data);
         });
     }, []);
     return ( 
         <div className="container col-12">
-            <div className="row m-1">
+            <div className="row">
             <div>
             <Buttons/>
             </div>
             <div>
-            <table class="table">
+            <table className="table">
                 <thead>
                     <tr>
                     <th scope="col">Cover</th>
@@ -35,7 +35,7 @@ const Userbook = () => {
                 {
                     userBook.map(userbook=>{
                         return(
-                            <tr>
+                            <tr key={userbook._id}>
                             <td>{userbook.book.image}</td>  
                             <td>{userbook.book.name}</td>
                             <td>{userbook.book.author.firstName +" "+userbook.book.author.lastName}</td>
