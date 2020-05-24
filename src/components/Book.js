@@ -1,15 +1,19 @@
 import React, {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import { Link , NavLink } from 'react-router-dom';
 import BookRate from './RateResults';
 import Reviews from './Reviews';
 import ReviewForm from './Reviewform'; 
 import { UserContext } from "../App";
+import Popup from "reactjs-popup";
 
 const Book = ({match: { params: { id } } })=> {
     const [book, setBook] = useState({ book: {}, error: null, isloaded: false })
     const [reviews,setReviews] = useState ({reviews: [], error:null , isloaded: false})
-    const  user  = React.useContext(UserContext);
-    console.log(user)
+    const { user } = React.useContext(UserContext);
+    const user_id = user? user.user._id: null
+    const [open, setOpen] = useState(false)
+
+    
     useEffect(()=>{
         fetch(`http://localhost:5000/books/${id}`)
             .then(res => res.json())
@@ -35,53 +39,57 @@ const Book = ({match: { params: { id } } })=> {
     }, [])
     
     const submitHandler = (text, mode,book_id)=>{
-        switch(mode){
-            case "add":
-                fetch("http://localhost:5000/reviews",
-                {
-                    method: "post",
-                    headers: {
-                        "Content-Type": "application/json",
+        if(!user_id){
+           setOpen(true)    
+        }else{
+            switch(mode){
+                case "add":
+                    fetch("http://localhost:5000/reviews",
+                    {
+                        method: "post",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            review:text,
+                            book: id,
+                            user: user_id,
+                        }),
+                    })
+                    .then(res => res.json())
+                    .then(
+                    (result) => {
+                        setReviews({reviews:[...reviews.reviews,result], error:null, isloaded: true})
                     },
-                    body: JSON.stringify({
-                        review:text,
-                        book: id,
-                        user:"5ec05caed5b42620f96b58a9",
-                    }),
-                })
-                .then(res => res.json())
-                .then(
-                (result) => {
-                    setReviews({reviews:[...reviews.reviews,result], error:null, isloaded: true})
-                },
-                (error) => {
-                    alert("cannot add review! something went wrong\nnote:'You cannot send empty review'")
-                })
-                break
-            case "edit":
-                fetch(`http://localhost:5000/reviews/${book_id}`,
-                {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json",
+                    (error) => {
+                        alert("cannot add review! something went wrong\nnote:'You cannot send empty review'")
+                    })
+                    break
+                case "edit":
+                    fetch(`http://localhost:5000/reviews/${book_id}`,
+                    {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            review:text
+                        }),
+                    })
+                    .then(res => res.json())
+                    .then(
+                    (result) => {
+                        const newRev = reviews.reviews.map(review=>{
+                            if(review._id == result._id) review = result
+                            return review
+                        })            
+                        setReviews({reviews:newRev, error:null, isloaded: true})
                     },
-                    body: JSON.stringify({
-                        review:text
-                    }),
-                })
-                .then(res => res.json())
-                .then(
-                (result) => {
-                    const newRev = reviews.reviews.map(review=>{
-                        if(review._id == result._id) review = result
-                        return review
-                    })            
-                    setReviews({reviews:newRev, error:null, isloaded: true})
-                },
-                (error) => {
-                    alert("cannot edit this reviw! something went wrong\nnote:'You cannot send empty review'")
-                })
-        } 
+                    (error) => {
+                        alert("cannot edit this reviw! something went wrong\nnote:'You cannot send empty review'")
+                    })
+                }
+            } 
         } 
     
 
@@ -112,6 +120,25 @@ const Book = ({match: { params: { id } } })=> {
     }else {
         return (
         <div className="container">
+            <Popup
+                open={open}
+                modal
+                closeOnDocumentClick
+                onClose={()=>setOpen(false)}>
+                <>
+                    <a className="close" onClick={()=>setOpen(false)}>&times;</a>
+                    <div className="container p-2">
+                        <h5 className="text-center">WARNNING </h5>
+                        <hr/>
+                        <p>You have to Login first</p>
+                        <hr/>
+                        <div className="text-center">
+                            <NavLink activeClassName="btn btn-info mr-2" to="/"> Login page </NavLink>
+                            <button className="btn btn-dark ml-2" onClick={()=>setOpen(false)}>Close</button>
+                        </div>
+                    </div>
+                </>
+            </Popup>
             {/* Author section */}
             <div className="row mt-4">
                 <div className="col-3">
@@ -151,7 +178,7 @@ const Book = ({match: { params: { id } } })=> {
             <div className="card  mt-5">
                 <div className="card-header">Book's reviews</div>
                 <div className="card-body">
-                    <Reviews reviews = {reviews} submitHandler={submitHandler} deleteHandler={deleteHandler}/>
+                    <Reviews reviews ={reviews} submitHandler={submitHandler} deleteHandler={deleteHandler} user={user_id}/>
                 </div>
             </div>
 

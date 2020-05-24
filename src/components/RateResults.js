@@ -20,8 +20,8 @@ const BookRate = (props)=> {
     }, [])
 
     return (
-        <div className="row">
-        <div className="col-2">
+        <div className="d-flex">
+        <div>
               <StarRatingComponent
                 name="staticRate"
                 value={parseInt(rate.rate)|| 0}
@@ -29,7 +29,7 @@ const BookRate = (props)=> {
                 renderStarIcon={() => <span className="fa fa-star"></span>}
               />
         </div>
-        <div className="col-2">-  {rate.count|| 0} &nbsp; rates</div>
+        <div>  &nbsp;  &nbsp;-  {rate.count|| 0} rates</div>
         </div>
         )
 

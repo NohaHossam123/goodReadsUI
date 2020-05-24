@@ -4,12 +4,10 @@ import ReviewForm from './Reviewform';
 
 
 const Reviews = (props)=> {
-    const [id, setId] = useState('')
     const width = { width: "70%"}
-
+    const user = props.user
 
     const deleteHandler = (id)=>{
-        setId(id)
         props.deleteHandler(id)
     }
 
@@ -25,13 +23,15 @@ const Reviews = (props)=> {
             props.reviews.reviews.map((review)=>
                 <div className="card mt-1" key={review._id}>
                     <div className="card-body">
-                        <button type="button" className="close" data-toggle="tooltip" title="delete" onClick={()=>deleteHandler(review._id)}>
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        {user == review.user._id?  
+                            <button type="button" className="close" data-toggle="tooltip" title="delete" onClick={()=>deleteHandler(review._id)}>
+                                <span aria-hidden="true">&times;</span>
+                            </button>: <></>  
+                        }
                         <div className="card-text">
                             <strong>{review.user.firstName+" "+review.user.lastName}</strong>
                             &nbsp;
-                                                       
+                            {user == review.user._id?                            
                                 <Popup
                                     trigger={<button type="button" className=" btn btn-link" data-toggle="tooltip" title="edit review">
                                     <i className="fa fa-edit fa-xs"></i>
@@ -39,15 +39,18 @@ const Reviews = (props)=> {
                                     position="right center"
                                     contentStyle={width}
                                     closeOnDocumentClick>
+                                    {close => (
                                     <> 
+                                    <a className="close btn btn-link" onClick={close}>cancel</a>
                                     <div className="container p-2">
-                                    <h5 className="text-center">Edit your review </h5>
+                                    <h4>Edit your review </h4>
                                     <hr/>
                                     <ReviewForm submitHandler={props.submitHandler} review={review.review} mode="edit" id={review._id}/>
                                     </div>
                                     </>
-                                </Popup>     
-                           
+                                    )}
+                                </Popup> : <></>  
+                        }
                         </div>
                         <p className="card-text">
                             {review.review}
