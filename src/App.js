@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "./components/Home";
 import Admin from "./components/Admin/Admin";
-import Categories from "./components/Categories";
+// import Categories from "./components/Categories";
 import Categories from "./components/CategoriesUI";
 import Books from "./components/Books";
 import Book from "./components/Book";
