@@ -2,19 +2,29 @@ import React, {useState, useEffect} from 'react';
 import Buttons from './Buttons';
 import axios from 'axios';
 import { UserContext } from "../App";
+import Pagination from './Pagination';
+
 
 const Userbook = () => {
   const { user } = React.useContext(UserContext);
     console.log("userbook",user?.user?.username);
     const [userBook, setUserBook] = useState([]);
-    const [books, setBooks] = useState([]); 
+    const [books, setBooks] = useState([]);  
+    const [currentPage, setCurrentPage] = useState(1);
+    const [booksPerPage, setBooksPerPages] = useState(10);
+    const indexOfLastBooks = currentPage * booksPerPage ;
+    const indexOfFirstBooks = indexOfLastBooks - booksPerPage ;
     const user_id = user ? user.user._id : null;
+
     useEffect(()=>{
         axios.get(`http://localhost:5000/books/shelf/${user_id}`).then((res)=>{
             setUserBook(res.data);
             setBooks(res.data);
         });
     }, []);
+
+    const currentBooks = books.slice(indexOfFirstBooks, indexOfLastBooks) ;
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     const changeState = (status)=>{
         switch(status){
@@ -49,7 +59,7 @@ const Userbook = () => {
                 </thead>
                 <tbody>
                 {
-                    books.map(userbook=>{
+                    currentBooks.map(userbook=>{
                         return(
                             <tr key={userbook._id}>
                             <td>{userbook.book.image}</td>  
@@ -64,6 +74,7 @@ const Userbook = () => {
                 }
                 </tbody>
             </table>
+            <Pagination booksPerPage={booksPerPage} totalBooks={books.length} paginate={paginate}/>
             </div>
         </div>
         </div>
