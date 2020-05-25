@@ -11,7 +11,7 @@ const Userbook = () => {
     const [userBook, setUserBook] = useState([]);
     const [books, setBooks] = useState([]);  
     const [currentPage, setCurrentPage] = useState(1);
-    const [booksPerPage, setBooksPerPages] = useState(1);
+    const [booksPerPage, setBooksPerPages] = useState(10);
     const indexOfLastBooks = currentPage * booksPerPage ;
     const indexOfFirstBooks = indexOfLastBooks - booksPerPage ;
     const user_id = user ? user.user._id : null;
