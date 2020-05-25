@@ -37,7 +37,7 @@ const Home = () => {
     else
         return (
             <div className="container col-12">
-                <div className="card border-dark mb-3 col-12">
+                <div className="card border-dark m-0 col-12">
                     <div className="card-header col-12">
                         {<Login isAdmin={false} UserContext={UserContext} />}
                     </div>
@@ -49,7 +49,7 @@ const Home = () => {
                                 <div className="card-header ">top Books</div>
                                 <div className="card-body text-dark col-12">
                                     {topbooks.map(book => <h5 key={Math.ceil(Math.random() * 100000)} className="card-title">
-                                        {book["name"]}
+                                        <a href={'book\\' + book["_id"]}>{book["name"]}</a>
                                     </h5>)}
                                 </div>
                             </div>
@@ -57,7 +57,7 @@ const Home = () => {
                                 <div className="card-header">top Categories</div>
                                 <div className="card-body text-dark col-12">
                                     {topcats.map(book => <h5 key={Math.ceil(Math.random() * 100000)} className="card-title">
-                                        {book["category"]["name"]}
+                                        <a href={'category/' + book["category"]["_id"]}>{book["category"]["name"]}</a>
                                     </h5>)}
                                 </div>
                             </div>
@@ -66,14 +66,14 @@ const Home = () => {
                             <div className="card border-dark m-3 col-5">
                                 <div className="card-header ">top Authors</div>
                                 <div className="card-body text-dark col-12">
-                                {topauths.map(book => <h5 key={Math.ceil(Math.random() * 100000)} className="card-title">
-                                        {book["author"]["firstName"]}  {book["author"]["lastName"]}
+                                    {topauths.map(book => <h5 key={Math.ceil(Math.random() * 100000)} className="card-title">
+                                    <a href={'author/' + book["author"]["_id"]}>{book["author"]["firstName"]}  {book["author"]["lastName"]}</a>
                                     </h5>)}</div>
                             </div>
                         </div>
                     </div>
-                    <div className="col ">
-                        <div className="card border-dark mb-3">
+                    <div className="col-5">
+                        <div className="card border-dark col-12 mb-3">
                             <div className="container">
                                 <div className="form-group">
                                     <h2>New here? Create a free account</h2>
@@ -117,16 +117,16 @@ const Home = () => {
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav container col-12">
                             <li className="nav-item active col-2 ml-5">
-                                <a className="nav-link " href="#"><h1> Home </h1><span className="sr-only">(current)</span></a>
+                                <a className="nav-link " href="/"><h1> Home </h1><span className="sr-only">(current)</span></a>
                             </li>
                             <li className="nav-item col-2">
                                 <a className="nav-link" href="#"><h1> About us</h1></a>
                             </li>
                             <li className="nav-item col-2">
-                                <a className="nav-link" href="#"><h1> Categories</h1></a>
+                                <a className="nav-link" href="/categories"><h1> Categories</h1></a>
                             </li>
                             <li className="nav-item col-2">
-                                <a className="nav-link" href="#"><h1> Authors</h1></a>
+                                <a className="nav-link" href="/authors"><h1> Authors</h1></a>
                             </li>
                             <li className="nav-item col-3">
                                 <a className="nav-link" href="#"><h1> Terms & Conditions</h1></a>
