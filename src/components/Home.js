@@ -72,8 +72,8 @@ const Home = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="col ">
-                        <div className="card border-dark mb-3">
+                    <div className="col-5">
+                        <div className="card border-dark col-12 mb-3">
                             <div className="container">
                                 <div className="form-group">
                                     <h2>New here? Create a free account</h2>
