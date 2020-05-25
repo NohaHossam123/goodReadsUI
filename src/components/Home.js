@@ -37,7 +37,7 @@ const Home = () => {
     else
         return (
             <div className="container col-12">
-                <div className="card border-dark mb-3 col-12">
+                <div className="card border-dark m-0 col-12">
                     <div className="card-header col-12">
                         {<Login isAdmin={false} UserContext={UserContext} />}
                     </div>
