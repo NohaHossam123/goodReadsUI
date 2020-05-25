@@ -7,17 +7,33 @@ const Userbook = () => {
   const { user } = React.useContext(UserContext);
     console.log("userbook",user?.user?.username);
     const [userBook, setUserBook] = useState([]);
+    const [books, setBooks] = useState([]); 
     const user_id = user ? user.user._id : null;
     useEffect(()=>{
         axios.get(`http://localhost:5000/books/shelf/${user_id}`).then((res)=>{
             setUserBook(res.data);
+            setBooks(res.data);
         });
     }, []);
+
+    const changeState = (status)=>{
+        switch(status){
+            case 0 :
+                setBooks(userBook);
+                break;      
+            case 1 :
+                setBooks(userBook.filter(book=>book.state == 0));
+                break;
+        }
+    }
+    const handleState = (state)=>{
+        changeState(state);
+    }
     return ( 
         <div className="container col-12">
             <div className="row">
             <div>
-            <Buttons/>
+            <Buttons handleState={handleState}/>
             </div>
             <div>
             <table className="table">
@@ -33,7 +49,7 @@ const Userbook = () => {
                 </thead>
                 <tbody>
                 {
-                    userBook.map(userbook=>{
+                    books.map(userbook=>{
                         return(
                             <tr key={userbook._id}>
                             <td>{userbook.book.image}</td>  

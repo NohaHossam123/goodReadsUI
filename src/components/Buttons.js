@@ -6,10 +6,10 @@ import React from "react";
                 <div className="wrapper">
                 <ul className="list-unstyled components" id="buttons">
                     <li>
-                        <button type="button"className="btn btn-info">All</button>
+                        <button type="button"className="btn btn-info" onClick={()=>{ props.handleState(0);}} >All</button>
                     </li>
                     <li>
-                        <button type="button" className="btn btn-info">Read</button>
+                        <button type="button" className="btn btn-info" onClick={()=>{ props.handleState(1);}} >Read</button>
                     </li>
                     <li>
                         <button type="button" className="btn btn-info">Currently Reading</button>
