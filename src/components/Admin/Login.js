@@ -89,7 +89,7 @@ const Login = ({UserContext, isAdmin}) => {
   else return (
     <form className="form-inline" onSubmit={handleSubmit}>
         <div className="form-group col-6">
-            <label for="email">Welcome To Good Reads</label>
+            <label >Welcome To Good Reads</label>
         </div>
         <div className="form-group col-2">
             <input type="text" placeholder="Username" className="form-control  col-12" 
