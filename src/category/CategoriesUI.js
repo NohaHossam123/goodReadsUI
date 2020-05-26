@@ -2,10 +2,12 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import   {Link}  from "react-router-dom";
+import Navbar from '../components/Navbar';
+import { UserContext } from '../App';
 
 
 const Category = (props) => {
-
+    const { user, setUser } = React.useContext(UserContext);
     const [categories, setCategories] = useState([]); 
     useEffect(() => {
     axios.get(`http://localhost:5000/categories`).then((res) => {
@@ -17,6 +19,7 @@ const Category = (props) => {
     }, []);
     return(
       <div className="row">
+        <Navbar user={user} setUser={setUser}/>
               {
                 categories.map(cat =>
                       <div className="card text-white bg-dark mb-3">

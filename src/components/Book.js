@@ -6,12 +6,13 @@ import ReviewForm from './Reviewform';
 import { UserContext } from "../App";
 import Popup from "reactjs-popup";
 import Ratecomp from './Admin/Ratecomp';
+import Navbar from './Navbar';
 
 
 const Book = ({match: { params: { id } } })=> {
     const [book, setBook] = useState({ book: {}, error: null, isloaded: false })
     const [reviews,setReviews] = useState ({reviews: [], error:null , isloaded: false})
-    const { user } = React.useContext(UserContext);
+    const { user, setUser } = React.useContext(UserContext);
     const user_id = user? user.user._id: null
     const [open, setOpen] = useState(false)
 
@@ -121,74 +122,77 @@ const Book = ({match: { params: { id } } })=> {
                         }}>Loading... </div>
     }else {
         return (
-        <div className="container">
-            <Popup
-                open={open}
-                modal
-                closeOnDocumentClick
-                onClose={()=>setOpen(false)}>
-                <>
-                    <a className="close" onClick={()=>setOpen(false)}>&times;</a>
-                    <div className="container p-2">
-                        <h5 className="text-center">WARNNING </h5>
-                        <hr/>
-                        <p>You have to Login first</p>
-                        <hr/>
-                        <div className="text-center">
-                            <NavLink activeClassName="btn btn-info mr-2" to="/"> Login page </NavLink>
-                            <button className="btn btn-dark ml-2" onClick={()=>setOpen(false)}>Close</button>
-                        </div>
-                    </div>
-                </>
-            </Popup>
-            {/* Author section */}
-            <div className="row mt-4">
-                <div className="col-3">
-                <div className="card" style={{width:"100%", height:"265px"}}>
-                    <img className="card-img-top" src={book.book.image} alt="Card image"/>
-                </div>
-                <div>
-                <Ratecomp bookid={id} userid={user_id}/>
-                </div>
-                </div>
-                <div className="col-9">
-                    <div className="card">
-                        <div className="card-body">
-                            <h4 className="card-title">{book.book.name}</h4>
+        <>
+            <Navbar user={user} setUser={setUser}/>
+            <div className="container">
+                <Popup
+                    open={open}
+                    modal
+                    closeOnDocumentClick
+                    onClose={()=>setOpen(false)}>
+                    <>
+                        <a className="close" onClick={()=>setOpen(false)}>&times;</a>
+                        <div className="container p-2">
+                            <h5 className="text-center">WARNNING </h5>
                             <hr/>
-                            <div className="card-text">
-                            <strong>By : </strong> &nbsp;<Link to={`/author/${book.book.author._id}`}>{book.book.author.firstName}&nbsp;{book.book.author.lastName}</Link>
-                            <br/>
-                            <strong>Category : </strong> &nbsp;<Link to={`/category/${book.book.category._id}`}>{book.book.category.name}</Link>
-                            <br/>
-                            <BookRate id={id}/>
+                            <p>You have to Login first</p>
+                            <hr/>
+                            <div className="text-center">
+                                <NavLink activeClassName="btn btn-info mr-2" to="/"> Login page </NavLink>
+                                <button className="btn btn-dark ml-2" onClick={()=>setOpen(false)}>Close</button>
                             </div>
-                            <p className="card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            </p>
+                        </div>
+                    </>
+                </Popup>
+                {/* Author section */}
+                <div className="row mt-4">
+                    <div className="col-3">
+                    <div className="card" style={{width:"100%", height:"265px"}}>
+                        <img className="card-img-top" src={book.book.image} alt="Card image"/>
+                    </div>
+                    <div>
+                    <Ratecomp bookid={id} userid={user_id}/>
+                    </div>
+                    </div>
+                    <div className="col-9">
+                        <div className="card">
+                            <div className="card-body">
+                                <h4 className="card-title">{book.book.name}</h4>
+                                <hr/>
+                                <div className="card-text">
+                                <strong>By : </strong> &nbsp;<Link to={`/author/${book.book.author._id}`}>{book.book.author.firstName}&nbsp;{book.book.author.lastName}</Link>
+                                <br/>
+                                <strong>Category : </strong> &nbsp;<Link to={`/category/${book.book.category._id}`}>{book.book.category.name}</Link>
+                                <br/>
+                                <BookRate id={id}/>
+                                </div>
+                                <p className="card-text">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-           
-            {/* reviews section */}
-            {/* review form */}
-            <div className="card  mt-5">
-                <div className="card-header">Add your review review</div>
-                <div className="card-body">
-                    <ReviewForm submitHandler={submitHandler} review="" mode="add" id=""/>
+            
+                {/* reviews section */}
+                {/* review form */}
+                <div className="card  mt-5">
+                    <div className="card-header">Add your review review</div>
+                    <div className="card-body">
+                        <ReviewForm submitHandler={submitHandler} review="" mode="add" id=""/>
+                    </div>
                 </div>
-            </div>
 
-            {/* reviews */}
-            <div className="card  mt-5">
-                <div className="card-header">Book's reviews</div>
-                <div className="card-body">
-                    <Reviews reviews ={reviews} submitHandler={submitHandler} deleteHandler={deleteHandler} user={user_id}/>
+                {/* reviews */}
+                <div className="card  mt-5">
+                    <div className="card-header">Book's reviews</div>
+                    <div className="card-body">
+                        <Reviews reviews ={reviews} submitHandler={submitHandler} deleteHandler={deleteHandler} user={user_id}/>
+                    </div>
                 </div>
-            </div>
 
-        </div>
+            </div>
+        </>
         );
     }
            

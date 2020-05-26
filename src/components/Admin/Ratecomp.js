@@ -10,12 +10,12 @@ const Ratecomp = ({ bookid,userid }) => {
     Axios.get(`http://localhost:5000/books/rate/${userid}/${bookid}`)
         .then((res) => {
             // console.log(res.data[0].rate);
-            setrate(res.data[0].rate);
+            setrate(res?.data[0]?.rate);
         })
     Axios.get(`http://localhost:5000/books/shelf/${userid}/${bookid}`)
         .then((res) => {
             // console.log(res.data);
-            setstate(res.data[0].state);
+            setstate(res?.data[0]?.state);
         })
 }, []);
 

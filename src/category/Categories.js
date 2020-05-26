@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { Redirect, useParams, Link } from "react-router-dom";
+import Navbar from '../components/Navbar';
+import { UserContext } from '../App';
 const CategoryBooks = (props) => {
+    const { user, setUser } = React.useContext(UserContext);
     const [data, setData] = useState([]);
     const { categoryname, id } = useParams();
     let path = `http://localhost:5000/categories/${id}/books`;
@@ -16,7 +19,8 @@ const CategoryBooks = (props) => {
         });
     }, []);
         return (
-                <div className="row">                 
+                <div className="row">       
+                <Navbar user={user} setUser={setUser}/>          
                   {
                       data.map(book=>
                         <div className="card text-white bg-dark mb-3" >

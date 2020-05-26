@@ -25,6 +25,7 @@ const Books = () => {
     setData({...data, loading: false})
   // fetching category and authors options in select menus
     getBookOptions();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data.loading,data.toggleUpdate]);
 
   const getBookOptions = async () => {

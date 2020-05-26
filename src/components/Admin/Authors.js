@@ -18,6 +18,7 @@ const Authors = () => {
     fetchData('authors').then(res => setAuthors(res));
   //setting loading to true
     setData({...data, loading: false})
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data.loading,data.toggleUpdate]);
   const handleChange = (e) => {
       setImage(e.target.files[0]);
