@@ -2,19 +2,32 @@ import React, {useState, useEffect} from 'react';
 import Buttons from './Buttons';
 import axios from 'axios';
 import { UserContext } from "../App";
+import Pagination from './Pagination';
+import Navbar from './Navbar';
+import { Redirect } from 'react-router-dom';
+
+import {Link} from 'react-router-dom';
+import './buttons.css'
 
 const Userbook = () => {
-  const { user } = React.useContext(UserContext);
-    console.log("userbook",user?.user?.username);
+  const { user, setUser } = React.useContext(UserContext);
     const [userBook, setUserBook] = useState([]);
-    const [books, setBooks] = useState([]); 
+    const [books, setBooks] = useState([]);  
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPages] = useState(5);
+    const indexOfLastItems = currentPage * itemsPerPage ;
+    const indexOfFirstItems = indexOfLastItems - itemsPerPage ;
     const user_id = user ? user.user._id : null;
+
     useEffect(()=>{
         axios.get(`http://localhost:5000/books/shelf/${user_id}`).then((res)=>{
             setUserBook(res.data);
             setBooks(res.data);
         });
     }, []);
+
+    const currentItems = books.slice(indexOfFirstItems, indexOfLastItems) ;
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     const changeState = (status)=>{
         switch(status){
@@ -35,8 +48,11 @@ const Userbook = () => {
     const handleState = (state)=>{
         changeState(state);
     }
+    if (!user) return <Redirect to='/' />
+    else
     return ( 
-        <div className="container col-12">
+        <div>
+            <Navbar user={user} setUser={setUser}/>
             <div className="row">
             <div>
             <Buttons handleState={handleState}/>
@@ -55,12 +71,12 @@ const Userbook = () => {
                 </thead>
                 <tbody>
                 {
-                    books.map(userbook=>{
+                    currentItems.map(userbook=>{
                         return(
                             <tr key={userbook._id}>
-                            <td>{userbook.book.image}</td>  
-                            <td>{userbook.book.name}</td>
-                            <td>{userbook.book.author.firstName +" "+userbook.book.author.lastName}</td>
+                            <td><img src = {userbook.book.image} width="200px" height="200px"/></td>  
+                            <td><Link to={`/book/${userbook.book._id}`}>{userbook.book.name}</Link></td>
+                            <td><Link to={`/author/${userbook.book.author._id}`}>{userbook.book.author.firstName +" "+userbook.book.author.lastName}</Link></td>
                             <td>3</td>
                             <td>5</td>
                             <td>3</td>
@@ -70,6 +86,7 @@ const Userbook = () => {
                 }
                 </tbody>
             </table>
+            <Pagination itemsPerPage={itemsPerPage} totalItems={books.length} paginate={paginate}/>
             </div>
         </div>
         </div>

@@ -1,11 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import BookRate from './RateResults';
 import { Link } from 'react-router-dom';
+import Ratecomp from './Admin/Ratecomp';
+import { UserContext } from "../App";
+
 // import axios from 'axios';
 
 const AuthorBooks = (props)=> {
     const id = props.id
     const [books, setBooks] = useState({ books: [], error: null, isloaded: false })
+    const { user } = React.useContext(UserContext);
+    const user_id = user? user.user._id: null
 
     useEffect(()=>{      
             fetch(`http://localhost:5000/authors/${id}/books`)
@@ -37,7 +42,8 @@ const AuthorBooks = (props)=> {
                             <img className="card-img-top" src={book.image} alt="Card image"/>
                         </div>
                     </div>
-                    <div className="col-10 card">
+                    <div className="row col-10">
+                        <div className="card col-9">
                             <div className="card-body">
                                 <p className="card-text">
                                     <strong><Link to={`/book/${book._id}`}>{book.name}</Link></strong>
@@ -46,7 +52,13 @@ const AuthorBooks = (props)=> {
                                 <BookRate id={book._id}/>
                             </div>
                         </div>
+                        <div className="col-3">
+                            <Ratecomp bookid={book._id} userid={user_id}/>
+                        </div>
+                       
                     </div>
+                </div>
+
             )
         }
        

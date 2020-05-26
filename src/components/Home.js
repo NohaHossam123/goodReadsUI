@@ -4,34 +4,74 @@ import Login from './Admin/Login'
 import { UserContext } from "../App";
 import { Redirect } from 'react-router-dom';
 
+
 const Home = () => {
+    const [erors, setErors] = useState([]);
+    const [done, setdone] = useState([]);
     const [topbooks, settopbooks] = useState([]);
     const [topcats, settopcats] = useState([]);
     const [topauths, settopauths] = useState([]);
+    const [newUserFirstName, setnewUserFirstName] = useState([]);
+    const [newUserLastName, setnewUserLastName] = useState([]);
+    const [newUserUsername, setnewUserUsername] = useState([]);
+    const [newUserEmail, setnewUserEmail] = useState([]);
+    const [newUserPassword, setnewUserPassword] = useState([]);
+    const [newUserPasswordCheck, setnewUserPasswordCheck] = useState([]);
+    const [newUserImage, setnewUserImage] = useState([]);
+
     const { user } = React.useContext(UserContext);
 
     useEffect(() => {
         axios.get('http://localhost:5000/books/topbooks')
             .then((res) => {
                 settopbooks(res.data);
-                console.log(topbooks);
             })
-    }, []);
-    useEffect(() => {
         axios.get('http://localhost:5000/books/topcats')
             .then((res) => {
                 settopcats(res.data);
-                console.log(topbooks);
             })
-    }, []);
-    useEffect(() => {
         axios.get('http://localhost:5000/books/topauths')
             .then((res) => {
                 settopauths(res.data);
-                console.log(topbooks);
             })
     }, []);
 
+    // const handleChangeUser = (e) => {
+    //     const { target: { value } } = e;
+    //     setnewUser(value);
+
+    // }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        let newUser = {
+            "firstName": newUserFirstName,
+            "lastName": newUserLastName,
+            "username": newUserUsername,
+            "email": newUserEmail,
+            "password": newUserPassword,
+            "image": newUserImage,
+            "isadmin": false
+        };
+        // console.log(newUser);
+        if (newUserPassword.length < 4) {
+            setErors("password is too short")
+        }
+        else if (newUserPassword !== newUserPasswordCheck) {
+            setErors("password doesnot match");
+        } else {
+            axios.post('http://localhost:5000/users', newUser).then((messages) => {
+                setdone(messages);
+                setErors("");
+                setnewUserFirstName("");
+                setnewUserLastName("");
+                setnewUserUsername("");
+                setnewUserEmail("");
+                setnewUserPassword("");
+                setnewUserPasswordCheck("");
+                setnewUserImage("");
+            }).catch((err) => setErors(err.response.data));
+        }
+    }
 
     if (user) return <Redirect to='/userbook' />
     else
@@ -67,7 +107,7 @@ const Home = () => {
                                 <div className="card-header ">top Authors</div>
                                 <div className="card-body text-dark col-12">
                                     {topauths.map(book => <h5 key={Math.ceil(Math.random() * 100000)} className="card-title">
-                                    <a href={'author/' + book["author"]["_id"]}>{book["author"]["firstName"]}  {book["author"]["lastName"]}</a>
+                                        <a href={'author/' + book["author"]["_id"]}>{book["author"]["firstName"]}  {book["author"]["lastName"]}</a>
                                     </h5>)}</div>
                             </div>
                         </div>
@@ -75,37 +115,45 @@ const Home = () => {
                     <div className="col-5">
                         <div className="card border-dark col-12 mb-3">
                             <div className="container">
-                                <div className="form-group">
-                                    <h2>New here? Create a free account</h2>
-                                </div>
-                                <div className="form-group">
-                                    <label >first name</label>
-                                    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="first name" />
-                                </div>
-                                <div className="form-group">
-                                    <label >last name</label>
-                                    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="last name" />
-                                </div>
-                                <div className="form-group">
-                                    <label >Email address</label>
-                                    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email address" />
-                                </div>
-                                <div className="form-group">
-                                    <label >password</label>
-                                    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="password" />
-                                </div>
-                                <div className="form-group">
-                                    <label >Retype Password</label>
-                                    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Retype Password" />
-                                </div>
-                                <div className="custom-file mb-3">
-                                    <input type="file" className="custom-file-input" id="validatedCustomFile" required />
-                                    <label className="custom-file-label" >upload your image</label>
-                                    <div className="invalid-feedback">Example invalid custom file feedback</div>
-                                </div>
-                                <div className="form-group mb-3 text-center">
-                                    <button className="btn btn-primary col-2" type="submit">Signup</button>
-                                </div>
+                                <form id="form" onSubmit={handleSubmit}>
+                                    <div className="form-group">
+                                        <h2>New here? Create a free account</h2>
+                                    </div>
+                                    {erors != "" ? <div className="alert alert-danger">{erors}</div> : ""}
+                                    {done != "" ? <div className="alert alert-success">you can log in now</div> : ""}
+                                    <div className="form-group">
+                                        <label>first name</label>
+                                        <input type="text" className="form-control" id="firstName" value={newUserFirstName} onChange={e => { const { target: { value } } = e; setnewUserFirstName(value) }} aria-describedby="emailHelp" placeholder="first name" required />
+                                    </div>
+                                    <div className="form-group">
+                                        <label >last name</label>
+                                        <input type="text" className="form-control" id="lastname" value={newUserLastName} onChange={e => { const { target: { value } } = e; setnewUserLastName(value) }} aria-describedby="emailHelp" placeholder="last name" required />
+                                    </div>
+                                    <div className="form-group">
+                                        <label >username</label>
+                                        <input type="text" className="form-control" id="username" value={newUserUsername} onChange={e => { const { target: { value } } = e; setnewUserUsername(value) }} aria-describedby="emailHelp" placeholder="username" required />
+                                    </div>
+                                    <div className="form-group">
+                                        <label >Email address</label>
+                                        <input type="email" className="form-control" id="email" value={newUserEmail} onChange={e => { const { target: { value } } = e; setnewUserEmail(value) }} aria-describedby="emailHelp" placeholder="Email address" required />
+                                    </div>
+                                    <div className="form-group">
+                                        <label >password</label>
+                                        <input type="password" className="form-control" id="password" value={newUserPassword} onChange={e => { const { target: { value } } = e; setnewUserPassword(value) }} aria-describedby="emailHelp" placeholder="password" required />
+                                    </div>
+                                    <div className="form-group">
+                                        <label >Retype Password</label>
+                                        <input type="password" className="form-control" id="passwordCheck" value={newUserPasswordCheck} onChange={e => { const { target: { value } } = e; setnewUserPasswordCheck(value) }} aria-describedby="emailHelp" placeholder="Retype Password" required />
+                                    </div>
+                                    <div className="custom-file mb-3">
+                                        <input type="file" className="custom-file-input" id="validatedCustomFile" value={newUserImage} onChange={e => { const { target: { value } } = e; setnewUserImage(value) }} required />
+                                        <label className="custom-file-label" >upload your image</label>
+                                        <div className="invalid-feedback">Example invalid custom file feedback</div>
+                                    </div>
+                                    <div className="form-group mb-3 text-center">
+                                        <button className="btn btn-primary col-2" type="submit">Signup</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
