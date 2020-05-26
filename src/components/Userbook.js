@@ -3,7 +3,8 @@ import Buttons from './Buttons';
 import axios from 'axios';
 import { UserContext } from "../App";
 import Pagination from './Pagination';
-
+import {Link} from 'react-router-dom';
+import './buttons.css'
 
 const Userbook = () => {
   const { user } = React.useContext(UserContext);
@@ -62,9 +63,9 @@ const Userbook = () => {
                     currentBooks.map(userbook=>{
                         return(
                             <tr key={userbook._id}>
-                            <td>{userbook.book.image}</td>  
-                            <td>{userbook.book.name}</td>
-                            <td>{userbook.book.author.firstName +" "+userbook.book.author.lastName}</td>
+                            <td><img src = {userbook.book.image} width="200px" height="200px"/></td>  
+                            <td><Link to={`/book/${userbook.book._id}`}>{userbook.book.name}</Link></td>
+                            <td><Link to={`/author/${userbook.book.author._id}`}>{userbook.book.author.firstName +" "+userbook.book.author.lastName}</Link></td>
                             <td>3</td>
                             <td>5</td>
                             <td>3</td>
