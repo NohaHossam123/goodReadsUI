@@ -12,9 +12,9 @@ const Userbook = () => {
     const [userBook, setUserBook] = useState([]);
     const [books, setBooks] = useState([]);  
     const [currentPage, setCurrentPage] = useState(1);
-    const [booksPerPage, setBooksPerPages] = useState(10);
-    const indexOfLastBooks = currentPage * booksPerPage ;
-    const indexOfFirstBooks = indexOfLastBooks - booksPerPage ;
+    const [itemsPerPage, setItemsPerPages] = useState(5);
+    const indexOfLastItems = currentPage * itemsPerPage ;
+    const indexOfFirstItems = indexOfLastItems - itemsPerPage ;
     const user_id = user ? user.user._id : null;
 
     useEffect(()=>{
@@ -24,7 +24,7 @@ const Userbook = () => {
         });
     }, []);
 
-    const currentBooks = books.slice(indexOfFirstBooks, indexOfLastBooks) ;
+    const currentItems = books.slice(indexOfFirstItems, indexOfLastItems) ;
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     const changeState = (status)=>{
@@ -60,7 +60,7 @@ const Userbook = () => {
                 </thead>
                 <tbody>
                 {
-                    currentBooks.map(userbook=>{
+                    currentItems.map(userbook=>{
                         return(
                             <tr key={userbook._id}>
                             <td><img src = {userbook.book.image} width="200px" height="200px"/></td>  
@@ -75,7 +75,7 @@ const Userbook = () => {
                 }
                 </tbody>
             </table>
-            <Pagination booksPerPage={booksPerPage} totalBooks={books.length} paginate={paginate}/>
+            <Pagination itemsPerPage={itemsPerPage} totalItems={books.length} paginate={paginate}/>
             </div>
         </div>
         </div>
