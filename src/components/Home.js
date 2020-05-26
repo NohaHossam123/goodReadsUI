@@ -4,6 +4,7 @@ import Login from './Admin/Login'
 import { UserContext } from "../App";
 import { Redirect } from 'react-router-dom';
 
+
 const Home = () => {
     const [topbooks, settopbooks] = useState([]);
     const [topcats, settopcats] = useState([]);
@@ -22,17 +23,14 @@ const Home = () => {
         axios.get('http://localhost:5000/books/topbooks')
             .then((res) => {
                 settopbooks(res.data);
-                console.log(topbooks);
             })
         axios.get('http://localhost:5000/books/topcats')
             .then((res) => {
                 settopcats(res.data);
-                console.log(topbooks);
             })
         axios.get('http://localhost:5000/books/topauths')
             .then((res) => {
                 settopauths(res.data);
-                console.log(topbooks);
             })
     }, []);
 

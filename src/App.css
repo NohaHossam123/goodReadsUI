@@ -22,4 +22,7 @@
 #paginate{
     margin: 10% 30%;
 }
+.checked {
+    color: orange;
+  }
 
