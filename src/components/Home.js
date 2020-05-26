@@ -102,27 +102,27 @@ const Home = () => {
                                     </div>
                                     <div className="form-group">
                                         <label>first name</label>
-                                        <input type="text" className="form-control" id="firstName" value={newUserFirstName} onChange={e=>{const { target: { value } } = e;setnewUserFirstName(value)}} aria-describedby="emailHelp" placeholder="first name" />
+                                        <input type="text" className="form-control" id="firstName" value={newUserFirstName} onChange={e=>{const { target: { value } } = e;setnewUserFirstName(value)}} aria-describedby="emailHelp" placeholder="first name" required />
                                     </div>
                                     <div className="form-group">
                                         <label >last name</label>
-                                        <input type="text" className="form-control" id="lastname" value={newUserLastName} onChange={e=>{const { target: { value } } = e;setnewUserLastName(value)}} aria-describedby="emailHelp" placeholder="last name" />
+                                        <input type="text" className="form-control" id="lastname" value={newUserLastName} onChange={e=>{const { target: { value } } = e;setnewUserLastName(value)}} aria-describedby="emailHelp" placeholder="last name" required />
                                     </div>
                                     <div className="form-group">
                                         <label >username</label>
-                                        <input type="text" className="form-control" id="username" value={newUserUsername} onChange={e=>{const { target: { value } } = e;setnewUserUsername(value)}} aria-describedby="emailHelp" placeholder="username" />
+                                        <input type="text" className="form-control" id="username" value={newUserUsername} onChange={e=>{const { target: { value } } = e;setnewUserUsername(value)}} aria-describedby="emailHelp" placeholder="username" required />
                                     </div>
                                     <div className="form-group">
                                         <label >Email address</label>
-                                        <input type="email" className="form-control" id="email" value={newUserEmail} onChange={e=>{const { target: { value } } = e;setnewUserEmail(value)}} aria-describedby="emailHelp" placeholder="Email address" />
+                                        <input type="email" className="form-control" id="email" value={newUserEmail} onChange={e=>{const { target: { value } } = e;setnewUserEmail(value)}} aria-describedby="emailHelp" placeholder="Email address" required />
                                     </div>
                                     <div className="form-group">
                                         <label >password</label>
-                                        <input type="password" className="form-control" id="password" value={newUserPassword} onChange={e=>{const { target: { value } } = e;setnewUserPassword(value)}} aria-describedby="emailHelp" placeholder="password" />
+                                        <input type="password" className="form-control" id="password" value={newUserPassword} onChange={e=>{const { target: { value } } = e;setnewUserPassword(value)}} aria-describedby="emailHelp" placeholder="password" required />
                                     </div>
                                     <div className="form-group">
                                         <label >Retype Password</label>
-                                        <input type="password" className="form-control" id="passwordCheck" value={newUserPasswordCheck} onChange={e=>{const { target: { value } } = e;setnewUserPasswordCheck(value)}} aria-describedby="emailHelp" placeholder="Retype Password" />
+                                        <input type="password" className="form-control" id="passwordCheck" value={newUserPasswordCheck} onChange={e=>{const { target: { value } } = e;setnewUserPasswordCheck(value)}} aria-describedby="emailHelp" placeholder="Retype Password" required />
                                     </div>
                                     <div className="custom-file mb-3">
                                         <input type="file" className="custom-file-input" id="validatedCustomFile" value={newUserImage} onChange={e=>{const { target: { value } } = e;setnewUserImage(value)}} required />
