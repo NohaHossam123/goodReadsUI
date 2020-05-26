@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Buttons from './Buttons';
+import BookRate from './RateResults';
+import StateResult from './StateResult';
 import axios from 'axios';
 import { UserContext } from "../App";
 import Pagination from './Pagination';
@@ -12,6 +14,7 @@ import './buttons.css'
 const Userbook = () => {
   const { user, setUser } = React.useContext(UserContext);
     const [userBook, setUserBook] = useState([]);
+    const [isLoading,setIsLoading] = useState(true)
     const [books, setBooks] = useState([]);  
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPages] = useState(5);
@@ -20,9 +23,14 @@ const Userbook = () => {
     const user_id = user ? user.user._id : null;
 
     useEffect(()=>{
+        console.log("ID",user_id);
         axios.get(`http://localhost:5000/books/shelf/${user_id}`).then((res)=>{
+            
             setUserBook(res.data);
             setBooks(res.data);
+            setIsLoading(false)
+            console.log(res);
+            
         });
     }, []);
 
@@ -37,13 +45,23 @@ const Userbook = () => {
             case 1 :
                 setBooks(userBook.filter(book=>book.state == 0));
                 break;
+            case 2 :
+                setBooks(userBook.filter(book=>book.state == 2));
+                break;
+            case 3 :
+                setBooks(userBook.filter(book=>book.state == 3));
+                break;
         }
     }
     const handleState = (state)=>{
         changeState(state);
     }
     if (!user) return <Redirect to='/' />
-    else
+    else if(isLoading){
+        return <div>
+            <h1>Loading...</h1>
+        </div>
+    }else
     return ( 
         <div>
             <Navbar user={user} setUser={setUser}/>
@@ -65,15 +83,19 @@ const Userbook = () => {
                 </thead>
                 <tbody>
                 {
+                    
                     currentItems.map(userbook=>{
+                        if(!userbook.book){
+                            return
+                        }
                         return(
                             <tr key={userbook._id}>
                             <td><img src = {userbook.book.image} width="200px" height="200px"/></td>  
                             <td><Link to={`/book/${userbook.book._id}`}>{userbook.book.name}</Link></td>
                             <td><Link to={`/author/${userbook.book.author._id}`}>{userbook.book.author.firstName +" "+userbook.book.author.lastName}</Link></td>
-                            <td>3</td>
-                            <td>5</td>
-                            <td>3</td>
+                            <td><BookRate id={Userbook.book_id} show={true} /></td>
+                            <td><BookRate id={Userbook.book_id} hideAvg /></td>
+                            <td><StateResult state= {userbook.state} /></td>
                             </tr>
                         )
                          } )
