@@ -17,7 +17,7 @@ import Pagination from './Pagination';
 
 const Authors = () => {
   // authors array
-  const [authors, setAuthors] = React.useState([]);
+  const [authorsData, setAuthorsData] = React.useState({ authors:[], loading:false});
   //user state
   const { user, setUser } = React.useContext(UserContext);
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -28,9 +28,13 @@ const Authors = () => {
   const classes = useStyles();
 
   React.useEffect(() => {
-      fetchData('authors').then(res => setAuthors(res));
+    //setting loading to true
+    setAuthorsData({...authorsData, loading: true})
+      fetchData('authors').then(res => setAuthorsData({...authorsData, authors: res}));
+      //setting loading to false
+    setAuthorsData({...authorsData, loading: false})
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authors]);
+  }, [authorsData.loading]);
 
   const currentItems = authors.slice(indexOfFirstItems, indexOfLastItems) ;
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -55,7 +59,7 @@ const Authors = () => {
                       {author.firstName} {author.lastName}
                       </Typography>
                       <Typography variant="body2" color="textSecondary" component="p">
-                      Birth Date: {new Date(author.birthDate).toISOString().split('T')[0]}
+                      <CakeTwoToneIcon fontSize='small' style={{ display: "inline-block", marginBottom:"5px", marginRight:'5px'}}/><strong>Birth Date:</strong> {new Date(author.birthDate).toISOString().split('T')[0]}
                       </Typography>
                     </CardContent>
                   </CardActionArea>

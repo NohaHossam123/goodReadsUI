@@ -16,7 +16,7 @@ import Pagination from './Pagination';
 
 const Books = () => {
   // books array
-  const [books, setBooks] = React.useState([]);
+  const [booksData, setBooksData] = React.useState({books:[], loading:false});
   //user state
   const { user, setUser } = React.useContext(UserContext);
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -27,9 +27,13 @@ const Books = () => {
   const classes = useStyles();
 
   React.useEffect(() => {
-      fetchData('books').then(res => setBooks(res));
+    //setting loading to true
+    setBooksData({...booksData, loading: true})
+    fetchData('books').then(res => setBooksData({...booksData, books: res}));
+    //setting loading to false
+    setBooksData({...booksData, loading: false})
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [books]);
+}, [booksData.loading]);
 
   const currentItems = books.slice(indexOfFirstItems, indexOfLastItems) ;
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -53,11 +57,11 @@ const Books = () => {
                       <Typography gutterBottom variant="h5" component="h2">
                       {book.name}
                       </Typography>
-                      <Typography variant="body2" color="textSecondary" component="p">
-                      Author: {book.author.firstName} {book.author.lastName}
-                      <Typography variant="body2" color="textSecondary" component="p">
+                      <Typography variant="body2" color="textSecondary" component="p" style={{margin:'5px'}}>
+                      <BorderColorTwoToneIcon fontSize='small' style={{ display: "inline-block", marginBottom:"0px", marginRight:'5px'}}/> <strong>Author:</strong> {book.author.firstName} {book.author.lastName}
                       </Typography>
-                      Category: {book.category.name}
+                      <Typography variant="body2" color="textSecondary" component="p" style={{margin:'5px'}}>
+                      <LocalOfferTwoToneIcon fontSize='small' style={{ display: "inline-block", marginBottom:"0px", marginRight:'5px'}}/> <strong>Category:</strong> {book.category.name}
                       </Typography>
                     </CardContent>
                   </CardActionArea>
