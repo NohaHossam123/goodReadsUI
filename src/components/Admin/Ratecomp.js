@@ -42,9 +42,9 @@ const Ratecomp = ({ bookid,userid }) => {
           <span id="5" className={rate >= 5 ? "fa fa-star checked" : "fa fa-star"} onClick={changerate}></span>
         </div>
         <select className="form-control" id="shelv" value={parseInt(state)?state:1} onChange={changeState}>
+          <option value={0}>read</option>
           <option value={1}>Currently read</option>
           <option value={2}>Want To Read</option>
-          <option value={3}>read</option>
         </select>
       </div>
     </div>
