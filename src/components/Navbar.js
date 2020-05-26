@@ -40,7 +40,7 @@ const Navbar = ({ user, setUser}) => {
                     </NavLink>
                 </Typography>
                 {user && (<Typography variant="h6" className={classes.title}>
-                <AccountCircleTwoToneIcon className={classes.menuIcon}/>
+                <AccountCircleTwoToneIcon className={classes.menuIcon} fontSize='large' style={{ display: "inline-block", marginBottom:"0px", marginRight:'5px'}}/>
                     {user?.user?.firstName} {user?.user?.lastName} 
                 </Typography>)}
                 {user && (<Button color="inherit" onClick={ (e) => logout()}>Log out</Button>)}
@@ -67,6 +67,8 @@ const useStyles = makeStyles((theme) => ({
     },
     menuIcon: {
       marginRight: theme.spacing(2),
+      display: "inline-block", 
+      marginBottom:"10px"
     }
   }));
 export default Navbar;

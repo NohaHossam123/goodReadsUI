@@ -5,7 +5,7 @@ import   {Link}  from "react-router-dom";
 import Navbar from '../components/Navbar';
 import { UserContext } from '../App';
 import Pagination from '../components/Pagination';
-
+import './category-style.css'
 
 const Category = (props) => {
     const { user, setUser } = React.useContext(UserContext);
@@ -32,8 +32,8 @@ const Category = (props) => {
         <Navbar user={user} setUser={setUser}/>
               {
                 currentItems.map(cat =>
-                      <div className="card text-white bg-dark mb-3">
-                          <div className="card-body" >
+                      <div className="card card_cat text-white bg-dark mb-3">
+                          <div className="card_cat_body" >
                             <h1 className="card-title">{cat.name}</h1>
                             <Link  key={cat.id} to={`/category/${cat._id}`}>
                               <button className="btn btn-success" >Discover</button>
