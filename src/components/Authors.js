@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import CakeTwoToneIcon from '@material-ui/icons/CakeTwoTone';
 import { fetchData } from './Admin/helpers';
 import Navbar from './Navbar';
 import { UserContext } from '../App';
@@ -21,7 +22,7 @@ const Authors = () => {
   //user state
   const { user, setUser } = React.useContext(UserContext);
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [itemsPerPage, setItemsPerPages] = React.useState(5);
+  const [itemsPerPage, setItemsPerPages] = React.useState(3);
   const indexOfLastItems = currentPage * itemsPerPage ;
   const indexOfFirstItems = indexOfLastItems - itemsPerPage ;
 
@@ -36,7 +37,7 @@ const Authors = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authorsData.loading]);
 
-  const currentItems = authors.slice(indexOfFirstItems, indexOfLastItems) ;
+  const currentItems = authorsData.authors.slice(indexOfFirstItems, indexOfLastItems) ;
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return ( 
@@ -77,7 +78,7 @@ const Authors = () => {
           </Grid>
         </div>
         <div className="container" style={{marginTop:"-45px"}}>
-          <Pagination itemsPerPage={itemsPerPage} totalItems={authors.length} paginate={paginate}/>
+          <Pagination itemsPerPage={itemsPerPage} totalItems={authorsData.authors.length} paginate={paginate}/>
         </div>      
       </>
      );

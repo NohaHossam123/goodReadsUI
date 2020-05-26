@@ -46,10 +46,10 @@ const Userbook = () => {
                 setBooks(userBook.filter(book=>book.state == 0));
                 break;
             case 2 :
-                setBooks(userBook.filter(book=>book.state == 2));
+                setBooks(userBook.filter(book=>book.state == 1));
                 break;
             case 3 :
-                setBooks(userBook.filter(book=>book.state == 3));
+                setBooks(userBook.filter(book=>book.state == 2));
                 break;
         }
     }
@@ -93,8 +93,8 @@ const Userbook = () => {
                             <td><img src = {userbook.book.image} width="200px" height="200px"/></td>  
                             <td><Link to={`/book/${userbook.book._id}`}>{userbook.book.name}</Link></td>
                             <td><Link to={`/author/${userbook.book.author._id}`}>{userbook.book.author.firstName +" "+userbook.book.author.lastName}</Link></td>
-                            <td><BookRate id={Userbook.book_id} show={true} /></td>
-                            <td><BookRate id={Userbook.book_id} hideAvg /></td>
+                            <td><BookRate id={userbook.book._id} show={true} /></td>
+                            <td><BookRate id={userbook.book._id} hideAvg /></td>
                             <td><StateResult state= {userbook.state} /></td>
                             </tr>
                         )

@@ -7,6 +7,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import LocalOfferTwoToneIcon from '@material-ui/icons/LocalOfferTwoTone';
+import BorderColorTwoToneIcon from '@material-ui/icons/BorderColorTwoTone';
 import { fetchData } from './Admin/helpers';
 import Navbar from './Navbar';
 import { UserContext } from '../App';
@@ -20,7 +22,7 @@ const Books = () => {
   //user state
   const { user, setUser } = React.useContext(UserContext);
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [itemsPerPage, setItemsPerPages] = React.useState(5);
+  const [itemsPerPage, setItemsPerPages] = React.useState(4);
   const indexOfLastItems = currentPage * itemsPerPage ;
   const indexOfFirstItems = indexOfLastItems - itemsPerPage ;
 
@@ -35,7 +37,7 @@ const Books = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [booksData.loading]);
 
-  const currentItems = books.slice(indexOfFirstItems, indexOfLastItems) ;
+  const currentItems = booksData.books.slice(indexOfFirstItems, indexOfLastItems) ;
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return ( 
@@ -79,7 +81,7 @@ const Books = () => {
           </Grid>
         </div>
         <div className="container" style={{marginTop:"-45px"}}>
-          <Pagination itemsPerPage={itemsPerPage} totalItems={books.length} paginate={paginate}/>
+          <Pagination itemsPerPage={itemsPerPage} totalItems={booksData.books.length} paginate={paginate} className='text-center'/>
         </div>
       </>
      );
