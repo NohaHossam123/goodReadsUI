@@ -9,9 +9,9 @@ import Book from "./components/Book";
 import Authors from "./components/Authors";
 import Author from "./components/Author";
 import Userbook from "./components/Userbook";
-import './category/category-style.css'
+// import './category/category-style.css'
 import "bootstrap/dist/css/bootstrap.min.css";
-// import "font-awesome/css/font-awesome.min.css";
+import "font-awesome/css/font-awesome.min.css";
 
 export const UserContext = React.createContext(null);
 
