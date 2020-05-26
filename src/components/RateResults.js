@@ -4,6 +4,7 @@ import StarRatingComponent from 'react-star-rating-component';
 const BookRate = (props)=> {
     const id = props.id
     const show = props.show  
+    const hideAvg = props.hideAvg
     const [rate, setRate] = useState({ rate: [], error: null, isloaded: false })
 
     useEffect(()=>{      
@@ -22,6 +23,7 @@ const BookRate = (props)=> {
 
     return (
         <div className="d-flex">
+          {!hideAvg&&
         <div>
               <StarRatingComponent
                 name="staticRate"
@@ -30,6 +32,7 @@ const BookRate = (props)=> {
                 renderStarIcon={() => <span className="fa fa-star"></span>}
               />
         </div>
+        }
       {!show?
         <div>  &nbsp; {rate.rate} &nbsp;-  {rate.count|| 0} rates</div>
         :<></>
