@@ -35,7 +35,7 @@ const CategoryBooks = (props) => {
             <Navbar user={user} setUser={setUser}/>          
                 {
                     currentItems.map(book=>
-                    <div className="card text-white bg-dark mb-3" >
+                    <div className="card card_cat text-white bg-dark mb-3" >
                         <h5 className="card-title">{book.name}</h5>
                     <Link  key={book.id} to={`/book/${book._id}`}>
                         <button className="btn btn-success">Read More</button>

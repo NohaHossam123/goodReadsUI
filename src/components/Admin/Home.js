@@ -176,6 +176,8 @@ const useStyles = makeStyles((theme) => ({
   },
   menuIcon: {
     marginRight: theme.spacing(2),
+    display: "inline-block", 
+    marginBottom:"10px", 
   }
 }));
 

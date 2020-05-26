@@ -1,8 +1,4 @@
-body {
-    background-color: turquoise;
-}
-
-.card {
+.card_cat {
     width: 20rem;
     text-align: center;
     display: flex;
@@ -14,15 +10,15 @@ body {
       
 }
 
-.card:hover {
+.card_cat:hover {
     box-shadow: 10px 20px 20px 10px hsla(0, 0%, 0%, 0.253) !important;
 }
 
-.card-body {
+.card_cat_body {
     padding: 3rem 0 !important;
 }
 
-.card-text {
+.card_text {
     font-size: 0.9rem;
     padding: 0.4rem 1.9rem;
 }

@@ -60,7 +60,7 @@ const Userbook = () => {
                     <th scope="col">Author</th>
                     <th scope="col">Avg Rate</th>
                     <th scope="col">Rating</th>
-                    <th scope="col">Sheleve</th>
+                    <th scope="col">Shelf</th>
                     </tr>
                 </thead>
                 <tbody>
