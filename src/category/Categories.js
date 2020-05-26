@@ -3,10 +3,17 @@ import axios from "axios";
 import { Redirect, useParams, Link } from "react-router-dom";
 import Navbar from '../components/Navbar';
 import { UserContext } from '../App';
+import Pagination from '../components/Pagination';
+
 const CategoryBooks = (props) => {
     const { user, setUser } = React.useContext(UserContext);
     const [data, setData] = useState([]);
     const { categoryname, id } = useParams();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPages] = useState(5);
+    const indexOfLastItems = currentPage * itemsPerPage ;
+    const indexOfFirstItems = indexOfLastItems - itemsPerPage ;
+
     let path = `http://localhost:5000/categories/${id}/books`;
     useEffect(() => {
         axios.get(path).then(res => {
@@ -18,11 +25,20 @@ const CategoryBooks = (props) => {
             setData([{ category: { name: "error" } }]);
         });
     }, []);
+
+    const currentItems = data.slice(indexOfFirstItems, indexOfLastItems) ;
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
         return (
+<<<<<<< HEAD
                 <div className="row">       
                 <Navbar user={user} setUser={setUser}/>          
+=======
+            <>
+                <div className="row">                 
+>>>>>>> 2f32d728b60e7117d51376e87361780d9acefef9
                   {
-                      data.map(book=>
+                      currentItems.map(book=>
                         <div className="card text-white bg-dark mb-3" >
                             <h5 className="card-title">{book.name}</h5>
                         <Link  key={book.id} to={`/book/${book._id}`}>
@@ -33,7 +49,10 @@ const CategoryBooks = (props) => {
                         )
                   }
                 </div>
-
+                <div>
+                  <Pagination itemsPerPage={itemsPerPage} totalItems={data.length} paginate={paginate}/>
+                </div>
+        </>
         );
     
 
