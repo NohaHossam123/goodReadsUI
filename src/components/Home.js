@@ -96,8 +96,8 @@ const Home = () => {
                             <div className="card border-dark m-3 col-5">
                                 <div className="card-header">top Categories</div>
                                 <div className="card-body text-dark col-12">
-                                    {topcats.map(book => <h5 key={Math.ceil(Math.random() * 100000)} className="card-title">
-                                        <a href={'category/' + book["category"]["_id"]}>{book["category"]["name"]}</a>
+                                    {topcats.map(category => <h5 key={Math.ceil(Math.random() * 100000)} className="card-title">
+                                        <a href={'category/' + category._id}>{category.name}</a>
                                     </h5>)}
                                 </div>
                             </div>
@@ -106,8 +106,8 @@ const Home = () => {
                             <div className="card border-dark m-3 col-5">
                                 <div className="card-header ">top Authors</div>
                                 <div className="card-body text-dark col-12">
-                                    {topauths.map(book => <h5 key={Math.ceil(Math.random() * 100000)} className="card-title">
-                                        <a href={'author/' + book["author"]["_id"]}>{book["author"]["firstName"]}  {book["author"]["lastName"]}</a>
+                                    {topauths.map(author => <h5 key={Math.ceil(Math.random() * 100000)} className="card-title">
+                                        <a href={'author/' + author._id}>{author.name}</a>
                                     </h5>)}</div>
                             </div>
                         </div>
@@ -145,11 +145,11 @@ const Home = () => {
                                         <label >Retype Password</label>
                                         <input type="password" className="form-control" id="passwordCheck" value={newUserPasswordCheck} onChange={e => { const { target: { value } } = e; setnewUserPasswordCheck(value) }} aria-describedby="emailHelp" placeholder="Retype Password" required />
                                     </div>
-                                    <div className="custom-file mb-3">
+                                    {/* <div className="custom-file mb-3">
                                         <input type="file" className="custom-file-input" id="validatedCustomFile" value={newUserImage} onChange={e => { const { target: { value } } = e; setnewUserImage(value) }} required />
                                         <label className="custom-file-label" >upload your image</label>
                                         <div className="invalid-feedback">Example invalid custom file feedback</div>
-                                    </div>
+                                    </div> */}
                                     <div className="form-group mb-3 text-center">
                                         <button className="btn btn-primary col-2" type="submit">Signup</button>
                                     </div>
@@ -168,7 +168,7 @@ const Home = () => {
                                 <a className="nav-link " href="/"><h1> Home </h1><span className="sr-only">(current)</span></a>
                             </li>
                             <li className="nav-item col-2">
-                                <a className="nav-link" href="#"><h1> About us</h1></a>
+                                <a className="nav-link" href="/books"><h1> Books</h1></a>
                             </li>
                             <li className="nav-item col-2">
                                 <a className="nav-link" href="/categories"><h1> Categories</h1></a>
