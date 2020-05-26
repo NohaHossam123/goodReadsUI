@@ -19,6 +19,7 @@ const Author = ({match: { params: { id } } })=> {
               (error) => {
                     setAuthor({author:{}, error: error, isloaded: true})
               }
+              
             )  
     }, [])
     console.log(author)
