@@ -17,7 +17,7 @@ const Home = () => {
     const [newUserEmail, setnewUserEmail] = useState([]);
     const [newUserPassword, setnewUserPassword] = useState([]);
     const [newUserPasswordCheck, setnewUserPasswordCheck] = useState([]);
-    const [newUserImage, setnewUserImage] = useState([]);
+    // const [newUserImage, setnewUserImage] = useState([]);
 
     const { user } = React.useContext(UserContext);
 
@@ -49,7 +49,7 @@ const Home = () => {
             "username": newUserUsername,
             "email": newUserEmail,
             "password": newUserPassword,
-            "image": newUserImage,
+            // "image": newUserImage,
             "isadmin": false
         };
         // console.log(newUser);
@@ -68,7 +68,7 @@ const Home = () => {
                 setnewUserEmail("");
                 setnewUserPassword("");
                 setnewUserPasswordCheck("");
-                setnewUserImage("");
+                // setnewUserImage("");
             }).catch((err) => setErors(err.response.data));
         }
     }
