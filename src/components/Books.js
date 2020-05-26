@@ -12,7 +12,8 @@ import Navbar from './Navbar';
 import { UserContext } from '../App';
 import { Grid } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
-
+import LocalOfferTwoToneIcon from '@material-ui/icons/LocalOfferTwoTone';
+import BorderColorTwoToneIcon from '@material-ui/icons/BorderColorTwoTone';
 const Books = () => {
   // books array
   const [books, setBooks] = React.useState([]);
@@ -45,11 +46,11 @@ const Books = () => {
                       <Typography gutterBottom variant="h5" component="h2">
                       {book.name}
                       </Typography>
-                      <Typography variant="body2" color="textSecondary" component="p">
-                      Author: {book.author.firstName} {book.author.lastName}
-                      <Typography variant="body2" color="textSecondary" component="p">
+                      <Typography variant="body2" color="textSecondary" component="p" style={{margin:'5px'}}>
+                      <BorderColorTwoToneIcon fontSize='small' style={{ display: "inline-block", marginBottom:"0px", marginRight:'5px'}}/> <strong>Author:</strong> {book.author.firstName} {book.author.lastName}
                       </Typography>
-                      Category: {book.category.name}
+                      <Typography variant="body2" color="textSecondary" component="p" style={{margin:'5px'}}>
+                      <LocalOfferTwoToneIcon fontSize='small' style={{ display: "inline-block", marginBottom:"0px", marginRight:'5px'}}/> <strong>Category:</strong> {book.category.name}
                       </Typography>
                     </CardContent>
                   </CardActionArea>

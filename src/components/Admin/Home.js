@@ -65,7 +65,7 @@ const Home = () => {
             GoodReads
           </Typography>
           <Typography variant="h6" className={classes.title}>
-          <AccountCircleTwoToneIcon className={classes.menuIcon}/>
+          <AccountCircleTwoToneIcon className={classes.menuIcon} fontSize='large' style={{ display: "inline-block", marginBottom:"0px", marginRight:'5px'}}/>
             {data?.user?.user?.firstName} {data?.user?.user?.lastName} 
           </Typography>
           <Button color="inherit" onClick={ (e) => logout()}>Log out</Button>

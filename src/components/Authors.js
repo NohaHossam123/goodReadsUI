@@ -12,7 +12,7 @@ import Navbar from './Navbar';
 import { UserContext } from '../App';
 import { Grid } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
-
+import CakeTwoToneIcon from '@material-ui/icons/CakeTwoTone';
 const Authors = () => {
   // authors array
   const [authors, setAuthors] = React.useState([]);
@@ -46,7 +46,7 @@ const Authors = () => {
                       {author.firstName} {author.lastName}
                       </Typography>
                       <Typography variant="body2" color="textSecondary" component="p">
-                      Birth Date: {new Date(author.birthDate).toISOString().split('T')[0]}
+                      <CakeTwoToneIcon fontSize='small' style={{ display: "inline-block", marginBottom:"5px", marginRight:'5px'}}/><strong>Birth Date:</strong> {new Date(author.birthDate).toISOString().split('T')[0]}
                       </Typography>
                     </CardContent>
                   </CardActionArea>
