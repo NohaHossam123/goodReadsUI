@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import AuthorBooks from './AuthorBooks';
+import Navbar from './Navbar';
+import { UserContext } from '../App';
 // import axios from 'axios';
 
 const Author = ({match: { params: { id } } })=> {
     const [author, setAuthor] = useState({ author: {}, error: null, isloaded: false })
+    const { user, setUser } = React.useContext(UserContext);
 
     useEffect(()=>{
         fetch(`http://localhost:5000/authors/${id}`)
@@ -37,38 +40,41 @@ const Author = ({match: { params: { id } } })=> {
                         }}>Loading... </div>
     }else {
         return (
-        <div className="container">
-            {/* Author section */}
-            <div className="row mt-4">
-                <div className="col-3">
-                <div className="card" style={{width:"100%", height:"260px"}}>
-                    <img className="card-img-top" src={author.author.image} alt="Card image"/>
-                </div>
-                </div>
-                <div className="col-9">
-                    <div className="card">
-                        <div className="card-body">
-                            <h4 className="card-title">{author.author.firstName}&nbsp;{author.author.lastName} </h4>
-                            <hr/>
-                            <p className="card-text">
-                                <strong>Born : </strong> &nbsp;{author.author.birthDate.split('',10)}
-                            </p>
-                            <p className="card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            </p>
+        <>
+            <Navbar user={user} setUser={setUser}/>
+            <div className="container">
+                {/* Author section */}
+                <div className="row mt-4">
+                    <div className="col-3">
+                    <div className="card" style={{width:"100%", height:"260px"}}>
+                        <img className="card-img-top" src={author.author.image} alt="Card image"/>
+                    </div>
+                    </div>
+                    <div className="col-9">
+                        <div className="card">
+                            <div className="card-body">
+                                <h4 className="card-title">{author.author.firstName}&nbsp;{author.author.lastName} </h4>
+                                <hr/>
+                                <p className="card-text">
+                                    <strong>Born : </strong> &nbsp;{author.author.birthDate.split('',10)}
+                                </p>
+                                <p className="card-text">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            {/* books section */}
-            <div className="card  mt-5">
-                <div className="card-header">Author's Books</div>
-                <div className="card-body">
-                    <AuthorBooks id= {author.author._id}/>
+                {/* books section */}
+                <div className="card  mt-5">
+                    <div className="card-header">Author's Books</div>
+                    <div className="card-body">
+                        <AuthorBooks id= {author.author._id}/>
+                    </div>
                 </div>
-            </div>
 
-        </div>
+            </div>
+        </>
         );
     }
            

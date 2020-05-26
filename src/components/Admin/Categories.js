@@ -16,6 +16,7 @@ const Categories = () => {
     fetchData('categories').then(res => setCategories(res));
   //setting loading to false
     setData({...data, loading: false})
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data.loading,data.toggleUpdate]);
   return (
     <MaterialTable

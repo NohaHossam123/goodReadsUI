@@ -3,12 +3,14 @@ import Buttons from './Buttons';
 import axios from 'axios';
 import { UserContext } from "../App";
 import Pagination from './Pagination';
+import Navbar from './Navbar';
+import { Redirect } from 'react-router-dom';
+
 import {Link} from 'react-router-dom';
 import './buttons.css'
 
 const Userbook = () => {
-  const { user } = React.useContext(UserContext);
-    console.log("userbook",user?.user?.username);
+  const { user, setUser } = React.useContext(UserContext);
     const [userBook, setUserBook] = useState([]);
     const [books, setBooks] = useState([]);  
     const [currentPage, setCurrentPage] = useState(1);
@@ -40,8 +42,11 @@ const Userbook = () => {
     const handleState = (state)=>{
         changeState(state);
     }
+    if (!user) return <Redirect to='/' />
+    else
     return ( 
-        <div className="container col-12">
+        <div>
+            <Navbar user={user} setUser={setUser}/>
             <div className="row">
             <div>
             <Buttons handleState={handleState}/>
@@ -55,7 +60,7 @@ const Userbook = () => {
                     <th scope="col">Author</th>
                     <th scope="col">Avg Rate</th>
                     <th scope="col">Rating</th>
-                    <th scope="col">Sheleve</th>
+                    <th scope="col">Shelf</th>
                     </tr>
                 </thead>
                 <tbody>

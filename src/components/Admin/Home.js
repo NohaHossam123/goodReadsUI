@@ -2,19 +2,24 @@ import React from "react";
 import { UserContext } from "../../App";
 import PropTypes from 'prop-types';
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import Categories from "./Categories";
-import Books from "./Books";
 import Authors from "./Authors";
-import { Switch, FormGroup, FormControlLabel, Toolbar, Button } from "@material-ui/core";
+import { Switch, 
+        FormGroup, 
+        FormControlLabel, 
+        Toolbar, 
+        Button, 
+        AppBar, 
+        Typography, 
+        Tab, 
+        Tabs, 
+        Box 
+      } from "@material-ui/core";
 import MenuBookTwoToneIcon from '@material-ui/icons/MenuBookTwoTone';
 import CategoryTwoToneIcon from '@material-ui/icons/CategoryTwoTone';
 import PersonOutlineTwoToneIcon from '@material-ui/icons/PersonOutlineTwoTone';
 import AccountCircleTwoToneIcon from '@material-ui/icons/AccountCircleTwoTone';
+import Books from "./Books";
 
 //Holding loading and if component should update
 export const DataContext = React.createContext(null);
@@ -171,6 +176,8 @@ const useStyles = makeStyles((theme) => ({
   },
   menuIcon: {
     marginRight: theme.spacing(2),
+    display: "inline-block", 
+    marginBottom:"10px", 
   }
 }));
 

@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { Redirect, useParams, Link } from "react-router-dom";
+import Navbar from '../components/Navbar';
+import { UserContext } from '../App';
 import Pagination from '../components/Pagination';
 
 const CategoryBooks = (props) => {
+    const { user, setUser } = React.useContext(UserContext);
     const [data, setData] = useState([]);
     const { categoryname, id } = useParams();
     const [currentPage, setCurrentPage] = useState(1);
@@ -28,22 +31,23 @@ const CategoryBooks = (props) => {
 
         return (
             <>
-                <div className="row">                 
-                  {
-                      currentItems.map(book=>
-                        <div className="card text-white bg-dark mb-3" >
-                            <h5 className="card-title">{book.name}</h5>
-                        <Link  key={book.id} to={`/book/${book._id}`}>
-                          <button className="btn btn-success">Read More</button>
-                        </Link>
-                     </div>
-                       
-                        )
-                  }
-                </div>
-                <div>
-                  <Pagination itemsPerPage={itemsPerPage} totalItems={data.length} paginate={paginate}/>
-                </div>
+            <div className="row">       
+            <Navbar user={user} setUser={setUser}/>          
+                {
+                    currentItems.map(book=>
+                    <div className="card card_cat text-white bg-dark mb-3" >
+                        <h5 className="card-title">{book.name}</h5>
+                    <Link  key={book.id} to={`/book/${book._id}`}>
+                        <button className="btn btn-success">Read More</button>
+                    </Link>
+                    </div>
+                    
+                    )
+                }
+            </div>
+            <div>
+                <Pagination itemsPerPage={itemsPerPage} totalItems={data.length} paginate={paginate}/>
+            </div>
         </>
         );
     
