@@ -6,6 +6,8 @@ import { Redirect } from 'react-router-dom';
 
 
 const Home = () => {
+    const [erors, setErors] = useState([]);
+    const [done, setdone] = useState([]);
     const [topbooks, settopbooks] = useState([]);
     const [topcats, settopcats] = useState([]);
     const [topauths, settopauths] = useState([]);
@@ -16,9 +18,9 @@ const Home = () => {
     const [newUserPassword, setnewUserPassword] = useState([]);
     const [newUserPasswordCheck, setnewUserPasswordCheck] = useState([]);
     const [newUserImage, setnewUserImage] = useState([]);
-    
+
     const { user } = React.useContext(UserContext);
-    
+
     useEffect(() => {
         axios.get('http://localhost:5000/books/topbooks')
             .then((res) => {
@@ -37,7 +39,7 @@ const Home = () => {
     // const handleChangeUser = (e) => {
     //     const { target: { value } } = e;
     //     setnewUser(value);
-        
+
     // }
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -50,8 +52,25 @@ const Home = () => {
             "image": newUserImage,
             "isadmin": false
         };
-        console.log(newUser);
-        axios.post('http://localhost:5000/users', newUser).then((messages) => { console.log(messages); });
+        // console.log(newUser);
+        if (newUserPassword.length < 4) {
+            setErors("password is too short")
+        }
+        else if (newUserPassword !== newUserPasswordCheck) {
+            setErors("password doesnot match");
+        } else {
+            axios.post('http://localhost:5000/users', newUser).then((messages) => {
+                setdone(messages);
+                setErors("");
+                setnewUserFirstName("");
+                setnewUserLastName("");
+                setnewUserUsername("");
+                setnewUserEmail("");
+                setnewUserPassword("");
+                setnewUserPasswordCheck("");
+                setnewUserImage("");
+            }).catch((err) => setErors(err.response.data));
+        }
     }
 
     if (user) return <Redirect to='/userbook' />
@@ -100,32 +119,34 @@ const Home = () => {
                                     <div className="form-group">
                                         <h2>New here? Create a free account</h2>
                                     </div>
+                                    {erors != "" ? <div className="alert alert-danger">{erors}</div> : ""}
+                                    {done != "" ? <div className="alert alert-success">you can log in now</div> : ""}
                                     <div className="form-group">
                                         <label>first name</label>
-                                        <input type="text" className="form-control" id="firstName" value={newUserFirstName} onChange={e=>{const { target: { value } } = e;setnewUserFirstName(value)}} aria-describedby="emailHelp" placeholder="first name" required />
+                                        <input type="text" className="form-control" id="firstName" value={newUserFirstName} onChange={e => { const { target: { value } } = e; setnewUserFirstName(value) }} aria-describedby="emailHelp" placeholder="first name" required />
                                     </div>
                                     <div className="form-group">
                                         <label >last name</label>
-                                        <input type="text" className="form-control" id="lastname" value={newUserLastName} onChange={e=>{const { target: { value } } = e;setnewUserLastName(value)}} aria-describedby="emailHelp" placeholder="last name" required />
+                                        <input type="text" className="form-control" id="lastname" value={newUserLastName} onChange={e => { const { target: { value } } = e; setnewUserLastName(value) }} aria-describedby="emailHelp" placeholder="last name" required />
                                     </div>
                                     <div className="form-group">
                                         <label >username</label>
-                                        <input type="text" className="form-control" id="username" value={newUserUsername} onChange={e=>{const { target: { value } } = e;setnewUserUsername(value)}} aria-describedby="emailHelp" placeholder="username" required />
+                                        <input type="text" className="form-control" id="username" value={newUserUsername} onChange={e => { const { target: { value } } = e; setnewUserUsername(value) }} aria-describedby="emailHelp" placeholder="username" required />
                                     </div>
                                     <div className="form-group">
                                         <label >Email address</label>
-                                        <input type="email" className="form-control" id="email" value={newUserEmail} onChange={e=>{const { target: { value } } = e;setnewUserEmail(value)}} aria-describedby="emailHelp" placeholder="Email address" required />
+                                        <input type="email" className="form-control" id="email" value={newUserEmail} onChange={e => { const { target: { value } } = e; setnewUserEmail(value) }} aria-describedby="emailHelp" placeholder="Email address" required />
                                     </div>
                                     <div className="form-group">
                                         <label >password</label>
-                                        <input type="password" className="form-control" id="password" value={newUserPassword} onChange={e=>{const { target: { value } } = e;setnewUserPassword(value)}} aria-describedby="emailHelp" placeholder="password" required />
+                                        <input type="password" className="form-control" id="password" value={newUserPassword} onChange={e => { const { target: { value } } = e; setnewUserPassword(value) }} aria-describedby="emailHelp" placeholder="password" required />
                                     </div>
                                     <div className="form-group">
                                         <label >Retype Password</label>
-                                        <input type="password" className="form-control" id="passwordCheck" value={newUserPasswordCheck} onChange={e=>{const { target: { value } } = e;setnewUserPasswordCheck(value)}} aria-describedby="emailHelp" placeholder="Retype Password" required />
+                                        <input type="password" className="form-control" id="passwordCheck" value={newUserPasswordCheck} onChange={e => { const { target: { value } } = e; setnewUserPasswordCheck(value) }} aria-describedby="emailHelp" placeholder="Retype Password" required />
                                     </div>
                                     <div className="custom-file mb-3">
-                                        <input type="file" className="custom-file-input" id="validatedCustomFile" value={newUserImage} onChange={e=>{const { target: { value } } = e;setnewUserImage(value)}} required />
+                                        <input type="file" className="custom-file-input" id="validatedCustomFile" value={newUserImage} onChange={e => { const { target: { value } } = e; setnewUserImage(value) }} required />
                                         <label className="custom-file-label" >upload your image</label>
                                         <div className="invalid-feedback">Example invalid custom file feedback</div>
                                     </div>
