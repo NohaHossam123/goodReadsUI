@@ -5,6 +5,8 @@ import Reviews from './Reviews';
 import ReviewForm from './Reviewform'; 
 import { UserContext } from "../App";
 import Popup from "reactjs-popup";
+import Ratecomp from './Admin/Ratecomp';
+
 
 const Book = ({match: { params: { id } } })=> {
     const [book, setBook] = useState({ book: {}, error: null, isloaded: false })
@@ -145,6 +147,9 @@ const Book = ({match: { params: { id } } })=> {
                 <div className="card" style={{width:"100%", height:"265px"}}>
                     <img className="card-img-top" src={book.book.image} alt="Card image"/>
                 </div>
+                <div>
+                <Ratecomp bookid={id} userid={user_id}/>
+                </div>
                 </div>
                 <div className="col-9">
                     <div className="card">
@@ -154,7 +159,7 @@ const Book = ({match: { params: { id } } })=> {
                             <div className="card-text">
                             <strong>By : </strong> &nbsp;<Link to={`/author/${book.book.author._id}`}>{book.book.author.firstName}&nbsp;{book.book.author.lastName}</Link>
                             <br/>
-                            <strong>Category : </strong> &nbsp;<Link to="#">{book.book.category.name}</Link>
+                            <strong>Category : </strong> &nbsp;<Link to={`/category/${book.book.category._id}`}>{book.book.category.name}</Link>
                             <br/>
                             <BookRate id={id}/>
                             </div>
@@ -165,6 +170,7 @@ const Book = ({match: { params: { id } } })=> {
                     </div>
                 </div>
             </div>
+           
             {/* reviews section */}
             {/* review form */}
             <div className="card  mt-5">
