@@ -30,28 +30,24 @@ const CategoryBooks = (props) => {
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
         return (
-<<<<<<< HEAD
-                <div className="row">       
-                <Navbar user={user} setUser={setUser}/>          
-=======
             <>
-                <div className="row">                 
->>>>>>> 2f32d728b60e7117d51376e87361780d9acefef9
-                  {
-                      currentItems.map(book=>
-                        <div className="card text-white bg-dark mb-3" >
-                            <h5 className="card-title">{book.name}</h5>
-                        <Link  key={book.id} to={`/book/${book._id}`}>
-                          <button className="btn btn-success">Read More</button>
-                        </Link>
-                     </div>
-                       
-                        )
-                  }
-                </div>
-                <div>
-                  <Pagination itemsPerPage={itemsPerPage} totalItems={data.length} paginate={paginate}/>
-                </div>
+            <div className="row">       
+            <Navbar user={user} setUser={setUser}/>          
+                {
+                    currentItems.map(book=>
+                    <div className="card text-white bg-dark mb-3" >
+                        <h5 className="card-title">{book.name}</h5>
+                    <Link  key={book.id} to={`/book/${book._id}`}>
+                        <button className="btn btn-success">Read More</button>
+                    </Link>
+                    </div>
+                    
+                    )
+                }
+            </div>
+            <div>
+                <Pagination itemsPerPage={itemsPerPage} totalItems={data.length} paginate={paginate}/>
+            </div>
         </>
         );
     
