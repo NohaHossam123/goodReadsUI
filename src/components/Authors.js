@@ -15,16 +15,20 @@ import { NavLink } from 'react-router-dom';
 import CakeTwoToneIcon from '@material-ui/icons/CakeTwoTone';
 const Authors = () => {
   // authors array
-  const [authors, setAuthors] = React.useState([]);
+  const [authorsData, setAuthorsData] = React.useState({ authors:[], loading:false});
   //user state
   const { user, setUser } = React.useContext(UserContext);
 
   const classes = useStyles();
 
   React.useEffect(() => {
-      fetchData('authors').then(res => setAuthors(res));
+    //setting loading to true
+    setAuthorsData({...authorsData, loading: true})
+      fetchData('authors').then(res => setAuthorsData({...authorsData, authors: res}));
+      //setting loading to false
+    setAuthorsData({...authorsData, loading: false})
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authors]);
+  }, [authorsData.loading]);
 
     return ( 
       <>
@@ -32,7 +36,7 @@ const Authors = () => {
         <Navbar user={user} setUser={setUser}/>
         <Grid container justify="center" spacing={2} style={{ padding: 50 }}>
             {
-              authors.map((author,index) => 
+              authorsData.authors.map((author,index) => 
               <Grid key={index} item xs={3}>
                 <Card className={classes.root}>
                   <CardActionArea>
