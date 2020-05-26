@@ -12,10 +12,10 @@ import React from "react";
                         <button type="button" className="btn btn-info" onClick={()=>{ props.handleState(1);}} >Read</button>
                     </li>
                     <li>
-                        <button type="button" className="btn btn-info">Currently Reading</button>
+                        <button type="button" className="btn btn-info" onClick={()=>{ props.handleState(2);}} >Currently Reading</button>
                     </li>
                     <li>
-                        <button type="button" className="btn btn-info">Want To Read</button>
+                        <button type="button" className="btn btn-info" onClick={()=>{ props.handleState(3);}} >Want To Read</button>
                     </li>
                 </ul>
                 </div> 

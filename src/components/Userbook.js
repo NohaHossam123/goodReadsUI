@@ -24,6 +24,12 @@ const Userbook = () => {
             case 1 :
                 setBooks(userBook.filter(book=>book.state == 0));
                 break;
+            case 2 :
+                setBooks(userBook.filter(book=>book.state == 2));
+                break;
+            case 3 :
+                setBooks(userBook.filter(book=>book.state == 3));
+                break;
         }
     }
     const handleState = (state)=>{
