@@ -1,6 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Popup from "reactjs-popup";
 import ReviewForm from './Reviewform'; 
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 
 const Reviews = (props)=> {
@@ -21,21 +25,21 @@ const Reviews = (props)=> {
         return (
         <>{
             props.reviews.reviews.map((review)=>
-                <div className="card mt-1" key={review._id}>
-                    <div className="card-body">
+                <div className="mt-3" key={review._id}>
+                <Card>
+                <CardContent>
                         {user == review.user._id?  
-                            <button type="button" className="close" data-toggle="tooltip" title="delete" onClick={()=>deleteHandler(review._id)}>
+                            <button type="button" className="close" data-toggle="tooltip" title="delete review" onClick={()=>deleteHandler(review._id)}>
                                 <span aria-hidden="true">&times;</span>
                             </button>: <></>  
                         }
-                        <div className="card-text">
+                            <Typography variant="h6" color="textSecondary" component="h6">
                             <strong>{review.user.firstName+" "+review.user.lastName}</strong>
-                            &nbsp;
                             {user == review.user._id?                            
                                 <Popup
-                                    trigger={<button type="button" className=" btn btn-link" data-toggle="tooltip" title="edit review">
-                                    <i className="fa fa-edit fa-xs"></i>
-                                    </button>}
+                                    trigger={<Button title="edit review">
+                                    <i className="fa fa-edit fa-sm"></i>
+                                    </Button>}
                                     position="right center"
                                     contentStyle={width}
                                     closeOnDocumentClick>
@@ -51,11 +55,12 @@ const Reviews = (props)=> {
                                     )}
                                 </Popup> : <></>  
                         }
-                        </div>
-                        <p className="card-text">
+                        </Typography>
+                        <Typography variant="body1" color="textPrimary" component="p">
                             {review.review}
-                        </p>
-                    </div>
+                        </Typography>
+                    </CardContent>
+                    </Card>
                 </div>
             )
         }

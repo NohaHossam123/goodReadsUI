@@ -7,7 +7,27 @@ import { UserContext } from "../App";
 import Popup from "reactjs-popup";
 import Ratecomp from './Admin/Ratecomp';
 import Navbar from './Navbar';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardHeader from '@material-ui/core/CardHeader';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles} from '@material-ui/core/styles';
 
+const useStyles = makeStyles({
+    root: {
+      maxWidth: 900,
+    },
+    media: {
+      height: 280,
+    },
+    heading: {
+        background: "#141414",
+        color: "white",
+        height: 55,
+    }
+    
+  });
 
 const Book = ({match: { params: { id } } })=> {
     const [book, setBook] = useState({ book: {}, error: null, isloaded: false })
@@ -15,6 +35,10 @@ const Book = ({match: { params: { id } } })=> {
     const { user, setUser } = React.useContext(UserContext);
     const user_id = user? user.user._id: null
     const [open, setOpen] = useState(false)
+    const classes = useStyles();
+   
+      
+
 
     
     useEffect(()=>{
@@ -124,7 +148,7 @@ const Book = ({match: { params: { id } } })=> {
         return (
         <>
             <Navbar user={user} setUser={setUser}/>
-            <div className="container">
+            <div className="container-xl">
                 <Popup
                     open={open}
                     modal
@@ -147,48 +171,64 @@ const Book = ({match: { params: { id } } })=> {
                 {/* Author section */}
                 <div className="row mt-4">
                     <div className="col-3">
-                    <div className="card" style={{width:"100%", height:"265px"}}>
-                        <img className="card-img-top" src={book.book.image} alt="Card image"/>
-                    </div>
+                    <Card>
+                    <CardMedia
+                      className={classes.media}
+                      image={book.book.image}
+                      title={book.book.name}
+                    />
+                    </Card>
+                    <br/>
                     <div>
                     <Ratecomp bookid={id} userid={user_id}/>
                     </div>
                     </div>
                     <div className="col-9">
-                        <div className="card">
-                            <div className="card-body">
-                                <h4 className="card-title">{book.book.name}</h4>
-                                <hr/>
-                                <div className="card-text">
+                    <Card className={classes.root}>
+                        <CardContent>
+                            <Typography gutterBottom variant="h4" component="h4">
+                             <strong>{book.book.name}</strong>
+                            </Typography>
+                            <hr/>
+                            <Typography variant="body2" color="textSecondary" component="p">
                                 <strong>By : </strong> &nbsp;<Link to={`/author/${book.book.author._id}`}>{book.book.author.firstName}&nbsp;{book.book.author.lastName}</Link>
-                                <br/>
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="p">
                                 <strong>Category : </strong> &nbsp;<Link to={`/category/${book.book.category._id}`}>{book.book.category.name}</Link>
-                                <br/>
+                            </Typography>  
+                            <Typography variant="body2" color="textSecondary" component="p">  
                                 <BookRate id={id}/>
-                                </div>
-                                <p className="card-text">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </p>
-                            </div>
-                        </div>
+                            </Typography>
+                            <Typography variant="body1" color="textPrimary" component="p">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            </Typography>
+                        </CardContent>
+                    </Card>
                     </div>
                 </div>
-            
+                <br/>
                 {/* reviews section */}
                 {/* review form */}
-                <div className="card  mt-5">
-                    <div className="card-header">Add your review review</div>
-                    <div className="card-body">
-                        <ReviewForm submitHandler={submitHandler} review="" mode="add" id=""/>
-                    </div>
+                <div className="mt-5">
+                <Card>
+                    <CardHeader title="Add your review review" titleTypographyProps={{ variant:'h6' }} className={classes.heading}> </CardHeader>
+                    <CardContent>
+                        <Typography component="div" style={{marginTop:"10px"}}>
+                            <ReviewForm submitHandler={submitHandler} review="" mode="add" id=""/>
+                        </Typography>
+                    </CardContent>
+                </Card>    
                 </div>
 
                 {/* reviews */}
-                <div className="card  mt-5">
-                    <div className="card-header">Book's reviews</div>
-                    <div className="card-body">
+                <br/>
+                <div className="card  mt-5 mb-5">
+                <Card>
+                    <CardHeader title="Book's reviews" titleTypographyProps={{ variant:'h6' }} className={classes.heading}> </CardHeader>
+                    <CardContent>
                         <Reviews reviews ={reviews} submitHandler={submitHandler} deleteHandler={deleteHandler} user={user_id}/>
-                    </div>
+                    </CardContent>
+                </Card>               
                 </div>
 
             </div>

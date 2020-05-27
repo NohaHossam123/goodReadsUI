@@ -1,4 +1,6 @@
 import React , { useState } from 'react';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 
 const ReviewForm = function(props){
@@ -19,11 +21,21 @@ const ReviewForm = function(props){
       <div>
           <form onSubmit={handleSubmit} >
              <div className="form">
-                <textarea className="form-control mb-1" id="content" rows="3"
-                 onChange={handleChange} value={input} placeholder="review the book..."></textarea>
+             <TextField
+                  label="review the book.."
+                  multiline
+                  rows={2}
+                  value={input}
+                  variant="outlined"
+                  onChange={handleChange}
+                  style={{width:"100%"}}
+                  />
+              
             </div>
             <div>
-            <button className="btn btn-info" type="submit">post review</button>
+            <Button style={{backgroundColor:'#303030', color:'white', marginTop:'8px'}}type="submit">
+            post review
+            </Button>
             </div>
           </form>
       </div>

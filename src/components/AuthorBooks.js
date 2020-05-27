@@ -3,14 +3,25 @@ import BookRate from './RateResults';
 import { Link } from 'react-router-dom';
 import Ratecomp from './Admin/Ratecomp';
 import { UserContext } from "../App";
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles} from '@material-ui/core/styles';
 
-// import axios from 'axios';
-
+const useStyles = makeStyles({
+    media: {
+      height: 150,
+    },
+    
+  });
 const AuthorBooks = (props)=> {
     const id = props.id
     const [books, setBooks] = useState({ books: [], error: null, isloaded: false })
     const { user } = React.useContext(UserContext);
     const user_id = user? user.user._id: null
+    const classes = useStyles();
+
 
     useEffect(()=>{      
             fetch(`http://localhost:5000/authors/${id}/books`)
@@ -36,25 +47,34 @@ const AuthorBooks = (props)=> {
         return (
         <>{
             books.books.map((book)=>
-                <div className="row mt-1" key={book._id}>
+                <div className="row mt-4" key={book._id}>
                     <div className="col-2">
-                        <div className="card" style={{width:"105px", height:"110px"}}>
-                            <img className="card-img-top" src={book.image} alt="Card image"/>
-                        </div>
+                        <Card>
+                        <CardMedia
+                        className={classes.media}
+                        image={book.image}
+                        title={book.name}
+                        />
+                        </Card>
                     </div>
                     <div className="row col-10">
-                        <div className="card col-9">
-                            <div className="card-body">
-                                <p className="card-text">
-                                    <strong><Link to={`/book/${book._id}`}>{book.name}</Link></strong>
-                                </p>
-                                {/* rating results */}
-                                <BookRate id={book._id}/>
+                        <Card style={{width:"100%"}}>
+                            <CardContent>
+                            <div className="row">
+                                <div className="col-8">
+                                    <Typography variant="body1" color="textPrimary" component="p">
+                                        <strong><Link to={`/book/${book._id}`}>{book.name}</Link></strong>
+                                    </Typography>
+                                    <Typography variant="body1" color="textPrimary" component="p">
+                                        <BookRate id={book._id}/>
+                                    </Typography>  
+                                </div>
+                                <div className="col-4">
+                                    <Ratecomp bookid={book._id} userid={user_id}/>
+                                </div>
                             </div>
-                        </div>
-                        <div className="col-3">
-                            <Ratecomp bookid={book._id} userid={user_id}/>
-                        </div>
+                            </CardContent>
+                        </Card>
                        
                     </div>
                 </div>
